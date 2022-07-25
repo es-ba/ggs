@@ -1,0 +1,23 @@
+db:
+  port: 5435
+  password: PONERPASSWOR
+log:
+  req: false
+  db:
+    on-demand: true
+install:
+  table-data-dir:
+login:
+  plus:
+    secret: PONERSECRET
+    allowHttpLogin: true
+devel:
+  forceShowAsEditable: false
+  useFileDevelopment: true
+client-setup:
+  skin: ""
+  lang: es
+server:
+  skins:
+    confort:
+      local-path: ../backend-skins/dist/
