@@ -23,9 +23,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
     }
 
     clientIncludes(req:Request, hideBEPlusInclusions:OptsClientPage){
-        return super.clientIncludes(req, hideBEPlusInclusions).concat([
-            {type:'js', module: 'procesamiento', modPath: '../client', file: 'procesamiento.js', path: 'client_modules'}
-        ])
+        return super.clientIncludes(req, hideBEPlusInclusions).concat([])
     }
     
     getMenu(context:Context){
