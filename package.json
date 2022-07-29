@@ -11,7 +11,7 @@
     "dist"
   ],
   "dependencies": {
-    "dmencu":"0.1.21"
+    "dmencu":"0.1.23"
   },
   "dependencias provisorias: las que se pongan en dependencias ponerlas acá y sacarlas juntas": {},
   "devDependencies": {
@@ -57,22 +57,5 @@
     "stability": "extending",
     "type": "app",
     "ecmaVersion": 6
-  },
-  "mixin-patch": {
-    "patch": false,
-    "copy": [
-      {
-        "from": "src/client",
-        "to": "dist/client/client"
-      },
-      {
-        "from": "src/unlogged",
-        "to": "dist/unlogged/unlogged"
-      },
-      {
-        "from": "src/unlogged",
-        "to": "dist/client/unlogged"
-      }
-    ]
   }
 }
