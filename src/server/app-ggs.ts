@@ -23,9 +23,19 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
     }
 
     clientIncludes(req:Request, hideBEPlusInclusions:OptsClientPage){
-        return super.clientIncludes(req, hideBEPlusInclusions).concat([])
+        return super.clientIncludes(req, hideBEPlusInclusions).concat([
+            { type: 'js', src: 'client/ggs.js' },
+            { type: 'js', src: 'my-render-formulario.js' },
+        ])
     }
-    
+    createResourcesForCacheJson(parameters){
+        var be = this;
+        var jsonResult = super.createResourcesForCacheJson(parameters);
+        jsonResult.cache=jsonResult.cache.concat([
+            "my-render-formulario.js"
+        ])
+        return jsonResult
+    }
     getMenu(context:Context){
         let menu:MenuInfoBase[] = [];
         if(this.config.server.policy=='web'){
