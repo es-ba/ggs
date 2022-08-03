@@ -5,6 +5,8 @@ import {Context, MenuInfoBase, Request, Response, OptsClientPage, TableDefinitio
 import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
 
+const APP_DM_VERSION="#22-08-03";
+
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Base:T){
   return class AppGgs extends Base{
@@ -25,14 +27,18 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
     clientIncludes(req:Request, hideBEPlusInclusions:OptsClientPage){
         return super.clientIncludes(req, hideBEPlusInclusions).concat([
             { type: 'js', src: 'client/ggs.js' },
+            { type: 'js', src: 'my-bypass-formulario.js' },
             { type: 'js', src: 'my-render-formulario.js' },
         ])
     }
     createResourcesForCacheJson(parameters){
         var be = this;
         var jsonResult = super.createResourcesForCacheJson(parameters);
+        jsonResult.version = APP_DM_VERSION;
+        jsonResult.appName = 'ggs';
         jsonResult.cache=jsonResult.cache.concat([
-            "my-render-formulario.js"
+            "my-render-formulario.js",
+            'my-bypass-formulario.js'
         ])
         return jsonResult
     }
