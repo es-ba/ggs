@@ -18,7 +18,7 @@ select tarea, nombre, rol_asignante, main_form,registra_estado_en_tem, 'GGS_2022
     where operativo='PREJU_2022';
 */
 insert into tareas_areas
-select operativo, tarea, area,*
+select operativo, tarea, area
     from tareas_areas
     where operativo='etoi211';
 insert into tareas_tem(tarea, operativo,enc)
