@@ -134,19 +134,14 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, context:Context){
             tableDef.hiddenColumns=tableDef.hiddenColumns.filter(element => element !='semana');
            // console.log('camposhidden', tableDef.hiddenColumns )
-            tableDef.fields.forEach(function(field){
-               if(field.name=='semana'){
-                   field.visible=true;
-                }
-            })
-         /*
+            tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
             tableDef.fields.splice(28, 0, 
                 {name :'recep_blaise' , typeName: 'text', editable: true  },
             );
             tableDef.fields.splice(29, 0, 
                 {name :'proie_blaise' , typeName: 'text', editable: true  },
             );
-         */
+            tableDef.sql!.from = tableDef.sql!.from!.replace('from tem t',',t.recep_blaise, t.proie_blaise from tem t');
         })
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){
         //    tableDef.fields.splice(2,0,
