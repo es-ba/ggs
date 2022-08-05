@@ -4,9 +4,9 @@ import { AppBackend, emergeAppMetaEnc, emergeAppOperativos, emergeAppRelEnc } fr
 import {OperativoGenerator, emergeAppVarCal, emergeAppDatosExt, emergeAppConsistencias, emergeAppProcesamiento, emergeAppDmEncu} from 'dmencu';
 import { emergeAppGgs } from "./app-ggs";
 
-OperativoGenerator.mainTD = 'personas';
-OperativoGenerator.mainTDPK = 'persona'; // TODO: hacer esto dinámico en paquete consistencias
-OperativoGenerator.orderedIngresoTDNames = [OperativoGenerator.mainTD, 'persona_calculada'];
+OperativoGenerator.mainTD = 'viviendas';
+OperativoGenerator.mainTDPK = 'vivienda'; // TODO: hacer esto dinámico en paquete consistencias
+OperativoGenerator.orderedIngresoTDNames = [OperativoGenerator.mainTD, 'viviendas_calculada'];
 OperativoGenerator.orderedReferencialesTDNames = ['lotes'];
 
 var AppGgs = emergeAppGgs(
