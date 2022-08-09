@@ -4,6 +4,7 @@ import * as dmencu from "./types-ggs";
 import {Context, MenuInfoBase, Request, Response, OptsClientPage, TableDefinition } from "./types-ggs";
 import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
+import {tem_hogar} from  "./table-tem_hogar";
 
 const APP_DM_VERSION="#22-08-03";
 
@@ -129,6 +130,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         super.prepareGetTables();
         this.getTableDefinition={
             ...this.getTableDefinition,
+            , tem_hogar,
         }
 
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, context:Context){
