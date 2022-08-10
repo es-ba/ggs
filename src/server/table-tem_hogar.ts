@@ -16,7 +16,13 @@ export function tem_hogar(context:TableContext):TableDefinition {
             {name:'idblaise'   ,  typeName: 'integer',  editable: false, nullable: false },
             
         ],
-        primaryKey:['operativo','enc', 'hogar', 'idblaise'],
+        primaryKey:['operativo','enc', 'hogar'],
+        hiddenColumns:[
+            'TEM__cluster',
+        ],
+        constraints:[
+            {constraintType:'unique', fields:['idblaise']},
+        ],
         foreignKeys:[
             {references:'operativos', fields:['operativo']},
             {references:'tem', fields:['operativo','enc'], abr:'E', label:'TEM'},
