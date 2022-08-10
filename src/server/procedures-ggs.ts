@@ -7,7 +7,7 @@ import { setHdrQuery } from "dmencu/dist/server/server/procedures-dmencu"
 setHdrQuery((quotedCondViv:string)=>{
     return `
     with viviendas as 
-        (select enc, t.json_encuesta as respuestas, t.resumen_estado as "resumenEstado", 
+        (select t.enc, t.json_encuesta as respuestas, t.resumen_estado as "resumenEstado", 
             jsonb_build_object(
                 'dominio'       , dominio       ,
                 'nomcalle'      , nomcalle      ,
@@ -31,8 +31,13 @@ setHdrQuery((quotedCondViv:string)=>{
                 'asignado', asignado,
                 'main_form', main_form
             ) as tarea,
-            min(fecha_asignacion) as fecha_asignacion
-            from tem t left join tareas_tem tt using (operativo, enc) left join tareas using (tarea)
+            min(fecha_asignacion) as fecha_asignacion,
+            jsonb_agg(jsonb_build_object(
+				'enc',th.enc,
+				'hogar',th.hogar, 
+				'idblaise', th.idblaise
+			)) codigos_blaise
+            from tem t left join tareas_tem tt using (operativo, enc) left join tareas using (tarea) left join tem_hogar th on (th.operativo=t.operativo and th.enc =t.enc)
             where ${quotedCondViv}
             group by t.enc, t.json_encuesta, t.resumen_estado, dominio, nomcalle,sector,edificio, entrada, nrocatastral, piso,departamento,habitacion,casa,reserva,tt.carga_observaciones, cita, t.area, tarea, fecha_asignacion, asignado, main_form
         )
@@ -49,7 +54,7 @@ setHdrQuery((quotedCondViv:string)=>{
                     group by area, observaciones_hdr`, 
                 'fecha')} as cargas,
             ${jsono(
-                `select enc, jsonb_build_object('tem', tem, 'tarea', tarea) as otras from viviendas`,
+                `select enc, jsonb_build_object('tem', tem, 'tarea', tarea,'codigosBlaise',codigos_blaise) as otras from viviendas`,
                     'enc',
                     `otras ||'{}'::jsonb`
                 )}
