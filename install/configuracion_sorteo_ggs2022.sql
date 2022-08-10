@@ -1,7 +1,3 @@
-set search_path = base;
---set role discon_owner;
-set role ggs_owner;
---update operativos set config_sorteo=null where operativo='GGS_2022'
 UPDATE operativos
   SET config_sorteo= '{
         "F:RE":{

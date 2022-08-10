@@ -10,10 +10,10 @@ export function tem_hogar(context:TableContext):TableDefinition {
         elementName:'tem_hogar',
         editable:puedeEditar,
         fields:[
-            {name:'operativo'  ,  typeName: 'text',     editable: false, nullable: false },
-            {name:'enc'        ,  typeName: 'text',     editable: false, nullable: false },
-            {name:'hogar'      ,  typeName: 'integer',  editable: false, nullable: false },
-            {name:'idblaise'   ,  typeName: 'integer',  editable: false, nullable: false },
+            {name:'operativo'  ,  typeName: 'text',     editable: true, nullable: false },
+            {name:'enc'        ,  typeName: 'text',     editable: true, nullable: false },
+            {name:'hogar'      ,  typeName: 'integer',  editable: true, nullable: false },
+            {name:'idblaise'   ,  typeName: 'integer',  editable: true, nullable: false },
             
         ],
         primaryKey:['operativo','enc', 'hogar'],

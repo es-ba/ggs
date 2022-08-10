@@ -50,6 +50,9 @@ install:
       - sincronizacion_tem.sql
       - control_disform_cerrado_trg.sql
       - control_cargado_tareas_tem_trg.sql
+      - inicial_update_varcal_por_encuesta.sql
+      - configuracion_sorteo_ggs2022.sql
+      - ejemplo_cargalocal_tem.sql
 login:
   infoFieldList: [usuario, rol, idper]
   table: usuarios

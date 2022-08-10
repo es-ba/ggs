@@ -1,5 +1,5 @@
-import { IdFormulario, RespuestasRaiz, ForPk } from "dmencu/dist/unlogged/unlogged/tipos";
-import {setCalcularVariablesEspecificasOperativo} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
+import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, DatosHdrUaPpal } from "dmencu/dist/unlogged/unlogged/tipos";
+import {getDatosByPass, setCalcularVariablesEspecificasOperativo, respuestasForPk} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
 
 setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:ForPk)=>{
     if(forPk.formulario == 'F:S1_SUP' as IdFormulario){
@@ -16,6 +16,15 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
                         respuestasHogar.personas[respuestasHogar.cr_num_miembro -1]?.edad
                     :null;
             }
+        }
+    }
+    if(forPk.formulario == 'F:I1' as IdFormulario){
+        let {respuestas} = respuestasForPk(forPk);
+        let idBlaise = getDatosByPass().informacionHdr[forPk.vivienda].codigosBlaise[forPk.hogar]?.idblaise;
+        if(idBlaise){
+            respuestas['id' as IdVariable] =idBlaise
+        }else{
+            throw Error ("no hay id de blaise asignado para el hogar")
         }
     }
 })

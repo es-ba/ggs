@@ -1,6 +1,6 @@
 --EJEMPLO LOCAL PARA CARGA INICIAL DE REGISTROS EN TEM, TAREAS_AREAS Y TAREAS_TEM
-set search_path=base;
-set role ggs_owner;
+--set search_path=base;
+--set role ggs_owner;
 /*INSERT INTO BASE.areas (operativo, area)
 select 'GGS_2022', area
     from BASE.areas
