@@ -130,7 +130,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         super.prepareGetTables();
         this.getTableDefinition={
             ...this.getTableDefinition,
-            , tem_hogar,
+            tem_hogar,
         }
 
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, context:Context){
