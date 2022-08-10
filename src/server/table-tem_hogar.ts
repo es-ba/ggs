@@ -1,6 +1,6 @@
 "use strict";
 
-import {TableDefinition, TableContext} from "./types-dmencu";
+import {TableDefinition, TableContext} from "./types-ggs";
 
 export function tem_hogar(context:TableContext):TableDefinition {
     var be=context.be;
