@@ -24,7 +24,7 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
         if(idBlaise){
             respuestas['id' as IdVariable] =idBlaise
         }else{
-            throw Error ("no hay id de blaise asignado para el hogar")
+            //throw Error ("no hay id de blaise asignado para el hogar")
         }
     }
 })
