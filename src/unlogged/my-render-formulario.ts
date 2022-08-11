@@ -22,7 +22,12 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
         let {respuestas} = respuestasForPk(forPk);
         let idBlaise = getDatosByPass().informacionHdr[forPk.vivienda].codigosBlaise[forPk.hogar]?.idblaise;
         if(idBlaise){
-            respuestas['id' as IdVariable] =idBlaise
+            respuestas['id_blaise' as IdVariable] = idBlaise;
+            let idParseado = idBlaise.toString().split('');
+            idParseado.splice(6,0,"-");
+            idParseado.splice(3,0,"-");
+            idParseado = idParseado.join('');
+            respuestas['id_blaise_parseado' as IdVariable] = idParseado;
         }else{
             //throw Error ("no hay id de blaise asignado para el hogar")
         }
