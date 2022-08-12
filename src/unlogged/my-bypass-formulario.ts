@@ -25,7 +25,8 @@ var esNoReaSup = (respuestas:Respuestas)=>{
         codNoReaSup=resnorea.nrcodigo;
         esNoReaSup=resnorea.esvalor;
     return {codNoReaSup,esNoReaSup}
-};
+}; 
+/* de operativo PREJU
 var esRealizada = (respuestas:Respuestas)=>{
     //TODO GENERALIZAR
     var esRea = false;
@@ -74,6 +75,73 @@ var esRealizada = (respuestas:Respuestas)=>{
                 esRea = false;
             }
         } else{
+            codRea = 3;
+            esRea = false;
+        }
+    }
+    return {codRea,esRea}
+};
+*/
+var esRealizada = (respuestas:Respuestas)=>{
+    //TODO GENERALIZAR 
+    //determinar si fin_1, fin_2, fin_3 se van a tener en cuenta para la rea y cuales de sus valores
+    var esRea = false;
+    var codRea:number|null= null;
+    if(!respuestas['identif' as IdVariable]){
+        return {codRea, esRea}
+    }else if(respuestas['identif' as IdVariable]==2 || respuestas['habita' as IdVariable]==2 ||respuestas['resid_hog' as IdVariable]==2||respuestas['contacto' as IdVariable]==2){
+        codRea = 2;
+        esRea = false;
+    }else{
+        var reahs: number[]=[] ;
+        var respuestasHs = respuestas['hogares'];
+        if(respuestasHs){
+            for(let respuestasH of respuestasHs){
+                var reah:number;
+                var selec:number;
+                if(respuestasH['entrea' ] != 1||respuestasH['ggs']==2||respuestasH['tp']==0){
+                    reah=2;
+                }else{
+                    selec=respuestasH['cr_num_miembro']
+                    if(respuestasH['personas'] && respuestasH.personas[selec-1] ){
+                        var respuestasP = respuestasH.personas[selec-1];
+                        var resp_entrea_ind = respuestasP['entreaind' as IdVariable ];
+                        var resp_resulcita_ind = respuestasP['resulcita' as IdVariable ];
+                        var resp_reams_ind = respuestasP['reams' as IdVariable ];
+                        var resp_fin1_ind = respuestasP['fin_1' as IdVariable ];
+                        var resp_fin3_ind = respuestasP['fin_3' as IdVariable ];
+                        //console.log ('resulcita ', resp_resulcita_ind);
+                        if(( resp_entrea_ind==1 && resp_reams_ind==1 )||( resp_entrea_ind==2 && resp_resulcita_ind==1)){ 
+                            if(resp_fin1_ind==1){ 
+                                reah = 1    // determinar si tmb habria que considerar resp_fin3_ind==1 para indicar que es una encuesta respondente
+                            }else{
+                                reah=2;
+                            } 
+                        }else if(resp_entrea_ind==2  && ( resp_reams_ind==2 ||resp_resulcita_ind==2 || resp_resulcita_ind==3 )){
+                            reah =2;
+                        }else if(resp_entrea_ind==2 && resp_resulcita_ind==null){ //pendiente
+                            reah=3                               
+                        }
+                    }else{ // ver este caso 
+                        reah=3;
+                    }
+                }
+                reahs.push(reah);
+            }
+            if (reahs.every(rh=>rh==1)){
+                codRea = 1;
+                esRea = true;
+            }else if(reahs.every(rh=>rh==2)){
+                codRea = 2;
+                esRea = false;
+            }else if(reahs.every(rh=>rh==1||rh==3)){
+                codRea = 3;
+                esRea = false;
+            }else{
+                codRea = 4;
+                esRea = false;
+            }
+        }else{
             codRea = 3;
             esRea = false;
         }
