@@ -2,6 +2,7 @@ import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, DatosHdrUaPpal } from 
 import {getDatosByPass, setCalcularVariablesEspecificasOperativo, respuestasForPk} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
 
 setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:ForPk)=>{
+    //ajustar variables
     if(forPk.formulario == 'F:S1_SUP' as IdFormulario){
         let hogar = forPk.hogar as number - 1;
         if(respuestasRaiz.hogares && respuestasRaiz.hogares[hogar]){
@@ -20,6 +21,9 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
     }
     if(forPk.formulario == 'F:I1' as IdFormulario){
         let {respuestas} = respuestasForPk(forPk);
+        respuestas['msi' as IdVariable] = respuestas['$p0' as IdVariable];
+        respuestas['msnombrei' as IdVariable] = respuestas['nombre' as IdVariable];
+        respuestas['msedadi'as IdVariable] = respuestas['edad' as IdVariable];
         let idBlaise = getDatosByPass().informacionHdr[forPk.vivienda].codigosBlaise[forPk.hogar]?.idblaise;
         if(idBlaise){
             respuestas['id_blaise' as IdVariable] = idBlaise;
