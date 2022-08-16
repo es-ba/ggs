@@ -6,6 +6,8 @@ select 'GGS_2022', area
     from BASE.areas
     where operativo='GGS_2022';
 */
+
+set search_path = base;
 insert into base.tem (operativo, area,enc)
 select 'GGS_2022', area,enc
     from BASE.tem
