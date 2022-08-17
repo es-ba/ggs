@@ -84,7 +84,7 @@ login:
     lockedFail: el usuario se encuentra bloqueado
     inactiveFail: es usuario está marcado como inactivo
 client-setup:
-  title: SIEH 2.0
+  title: GGS
   cursors: true
   lang: es
   menu: true
