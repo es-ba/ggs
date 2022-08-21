@@ -112,8 +112,8 @@ var esRealizada = (respuestas:Respuestas)=>{
                         var resp_fin3_ind = respuestasP['fin_3' as IdVariable ];
                         //console.log ('resulcita ', resp_resulcita_ind);
                         if(( resp_entrea_ind==1 && resp_reams_ind==1 )||( resp_entrea_ind==2 && resp_resulcita_ind==1)){ 
-                            if(resp_fin1_ind==1){ 
-                                reah = 1    // determinar si tmb habria que considerar resp_fin3_ind==1 para indicar que es una encuesta respondente
+                            if(resp_fin1_ind==1 && resp_fin3_ind==1){ 
+                                reah = 1    // determinar si esta ok tmb considerar resp_fin3_ind==1 para indicar que es una encuesta respondente
                             }else{
                                 reah=2;
                             } 

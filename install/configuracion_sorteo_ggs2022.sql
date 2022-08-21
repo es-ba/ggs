@@ -49,77 +49,50 @@ UPDATE operativos
             "id_formulario_individual":"F:I1",
             "id_formulario_padre":"F:S1"
         },
-		"F:RE_SUP": {
-			"orden": [
-				{
-					"orden": -1,
-					"variable": "edad_sup"
-				}
-			],
-			"filtro": {
-				"3": {
-					"expr": "edad_sup>=18",
-					"dominio": 3
-				},
-				"5": {
-					"expr": "edad_sup>=18",
-					"dominio": 5
-				}
-			},
-			"metodo": "tabla",
-			"resultado": "nro_miembro_sel_sup",
-			"disparador": "sorteo_sup",
-			"parametros": [
-				"nombre_sup",
-				"sexo_sup",
-				"edad_sup",
-				"sp4_sup",
-				"spp5",
-				"total_m_sup"
-			],
-			"incompletas": "_personas_incompletas_sup",
-			"param_metodo": {
-				"tabla": [
-					"AAAAAAAAAA",
-					"BABAABAABB",
-					"ACCBBABBAC",
-					"BAACCBDCDA",
-					"CBEDAEADCB",
-					"FDBAECEAFD",
-					"ECDGGFCBBA",
-					"DGAECDBFHC",
-					"GEHCBIHDAF",
-					"AHFBDJGCIE",
-					"IAGHFEDBIK",
-					"GDDJAAFECL",
-					"ACHMEKHJBM",
-					"JMCHIAENLC",
-					"OGCKMIKMJN"
-				],
-				"var_letra": "spl0_sup"
-			},
-			"cantidad_total": "total_m_sup",
-			"unidad_analisis": "personas_sup",
-			"resultado_manual": "nro_mie_sel_ing_sup",
-			"sorteado_mostrar": [
-				{
-					"source": "nombre_sup",
-					"target": "nombre_miembro_sel_sup"
-				}
-			],
-			"expr_incompletitud": {
-				"3": {
-					"expr": "not(nombre_sup) or not(sexo_sup) or blanco(edad_sup)",
-					"dominio": 3
-				},
-				"5": {
-					"expr": "not(nombre_sup) or not(sexo_sup) or blanco(edad_sup)",
-					"dominio": 5
-				}
-			},
-			"cantidad_sorteables": "total_rango_sup",
-			"unidad_analisis_padre": "hogares_sup",
-			"variableBotonFormularioUA": "$B.F:S1_P_SUP"
-		}
+		"F:RE_SUP":{
+            "unidad_analisis": "personas_sup",
+            "unidad_analisis_padre": "hogares_sup",
+            "expr_incompletitud": {
+                "3":{"dominio": 3, "expr": "not(nombre_sup) or blanco(edad_sup)"},
+                "5":{"dominio": 5, "expr": "not(nombre_sup) or blanco(edad_sup)"}
+            },
+            "disparador": "sorteo_sup",
+            "filtro": {
+                "3":{"dominio": 3, "expr": "edad_sup>=18 and edad_sup <=79"},
+                "5":{"dominio": 5, "expr": "edad_sup>=18 and edad_sup <=79"}
+            },
+            "orden": [
+                {"variable":"edad_sup" , "orden":-1}
+            ], 
+            "parametros":["nombre_sup","sexo_sup","edad_sup", "sp4_sup", "spp5", "total_m_sup"],
+            "incompletas":"_personas_incompletas_sup",
+            "variableBotonFormularioUA":"$B.F:S1_P_SUP",
+            "metodo": "tabla",
+            "param_metodo": {
+                "var_letra": "spl0_sup",
+                "tabla": [
+                    "AAAAAAAAAA",
+                    "BABAABAABB",
+                    "ACCBBABBAC",
+                    "BAACCBDCDA",
+                    "CBEDAEADCB",
+                    "FDBAECEAFD",
+                    "ECDGGFCBBA",
+                    "DGAECDBFHC",
+                    "GEHCBIHDAF",
+                    "AHFBDJGCIE",
+                    "IAGHFEDBIK",
+                    "GDDJAAFECL",
+                    "ACHMEKHJBM",
+                    "JMCHIAENLC",
+                    "OGCKMIKMJN"
+                ]
+            },
+            "cantidad_sorteables":"total_rango_sup",
+            "cantidad_total":"total_m_sup",
+            "resultado": "nro_miembro_sel_sup",
+            "resultado_manual":"nro_mie_sel_ing_sup",
+            "sorteado_mostrar": [{"source":"nombre_sup", "target":"nombre_miembro_sel_sup"}]
+        }
     }'
 where operativo = 'GGS_2022';
