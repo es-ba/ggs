@@ -6,3 +6,7 @@ alter table tem add column "observaciones_blaise" text;
 
 alter table "tem" add constraint "lote<>''" check ("lote"<>'');
 alter table "tem" add constraint "observaciones_blaise<>''" check ("observaciones_blaise"<>'');
+
+alter table tem 
+add column "libre" boolean default true, 
+add column "fecha_bloqueo" timestamp; 
