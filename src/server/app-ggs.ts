@@ -143,7 +143,46 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             tableDef.fields.splice(27, 0, 
                 {name :'proie_blaise' , typeName: 'text', editable: true  },
             );
-            tableDef.sql!.from = tableDef.sql!.from!.replace('from tem t',',t.recep_blaise, t.proie_blaise from tem t');
+            tableDef.fields.splice(28, 0, 
+                {name :'lote' , typeName: 'text', editable: true  },
+            );
+            tableDef.fields.splice(29, 0, 
+                {name :'grado_matching' , typeName: 'decimal', editable: true  },
+            );
+            tableDef.fields.splice(30, 0, 
+                {name :'observaciones_blaise' , typeName: 'text', editable: true  },
+            );
+            tableDef.sql!.from = tableDef.sql!.from!.replace(
+                'from tem t',
+                ',t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise from tem t'
+            );
+        });
+
+        be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition, context:Context){
+            tableDef.hiddenColumns=tableDef.hiddenColumns.filter(element => element !='semana');
+           // console.log('camposhidden', tableDef.hiddenColumns )
+            tableDef.fields.splice(26, 0, 
+                {name :'recep_blaise'        , typeName: 'text'   , editable: false, inTable: false },
+            );
+            tableDef.fields.splice(27, 0, 
+                {name :'proie_blaise'        , typeName: 'text'   , editable: false, inTable: false },
+            );
+            tableDef.fields.splice(28, 0, 
+                {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
+            );
+            tableDef.fields.splice(29, 0, 
+                {name :'grado_matching'      , typeName: 'decimal', editable: false, inTable: false },
+            );
+            tableDef.fields.splice(30, 0, 
+                {name :'observaciones_blaise', typeName: 'text'   , editable: false, inTable: false },
+            );
+            tableDef.fields.push(
+                {name:'semana'               , typeName:'integer' , editable: false, inTable: false },
+            );
+            tableDef.sql!.from = tableDef.sql!.from!.replace(
+                'select tareas.tarea, t.operativo, t.enc, t.area',
+                'select tareas.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana'
+            );
         })
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){
         //    tableDef.fields.splice(2,0,
