@@ -43,6 +43,20 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         ])
         return jsonResult
     }
+    getColorsJson(sufijo:'_test'|'_capa'|''){
+        let miSufijo: '_prod'|'_test'|'_capa' = sufijo || '_prod';
+        let coloresEntornos = {
+            "_prod":"#067DB5",
+            "_test":"#C47208",
+            "_capa":"#880996",
+        }
+        return {
+            "start_url": "../campo",
+            "display": "standalone",
+            "theme_color": "#3F51B5",
+            "background_color": coloresEntornos[miSufijo]
+        }
+    }
     getMenu(context:Context){
         let menu:MenuInfoBase[] = [];
         if(this.config.server.policy=='web'){
