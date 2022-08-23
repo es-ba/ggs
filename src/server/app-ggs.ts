@@ -166,9 +166,12 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             tableDef.fields.splice(30, 0, 
                 {name :'observaciones_blaise' , typeName: 'text', editable: true  },
             );
+            tableDef.fields.splice(31, 0, 
+                {name :'resultado_blaise' , typeName: 'text', editable: true  },
+            );
             tableDef.sql!.from = tableDef.sql!.from!.replace(
                 'from tem t',
-                ',t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise from tem t'
+                ',t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.resultado_blaise from tem t'
             );
         });
 
@@ -195,7 +198,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
             tableDef.sql!.from = tableDef.sql!.from!.replace(
                 'select tareas.tarea, t.operativo, t.enc, t.area',
-                'select tareas.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana'
+                'select tareas.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana, t.resultado_blaise '
             );
         })
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){
