@@ -64,7 +64,7 @@ UPDATE operativos
             "orden": [
                 {"variable":"edad_sup" , "orden":-1}
             ], 
-            "parametros":["nombre_sup","sexo_sup","edad_sup", "sp4_sup", "spp5", "total_m_sup"],
+            "parametros":["nombre_sup", "edad_sup", "sp4_sup", "spp5", "total_m_sup"],
             "incompletas":"_personas_incompletas_sup",
             "variableBotonFormularioUA":"$B.F:S1_P_SUP",
             "metodo": "tabla",
