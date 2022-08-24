@@ -43,13 +43,13 @@ install:
       - varcal_manual/estructura.sql
       - varcal_manual/funcion_update.sql
       - fun_validar_tipodato.sql
-      - desintegrarpk.sql
-      - agregar_adjunto_carto_trg
-      - sincro_tareas_areas_tareas_tem_trg.sql
-      - sincronizacion_tareas_tem.sql
-      - sincronizacion_tem.sql
-      - control_disform_cerrado_trg.sql
-      - control_cargado_tareas_tem_trg.sql
+      - ../node_modules/dmencu/install/desintegrarpk.sql
+      - ../node_modules/dmencu/install/agregar_adjunto_carto_trg
+      - ../node_modules/dmencu/install/sincro_tareas_areas_tareas_tem_trg.sql
+      - ../node_modules/dmencu/install/sincronizacion_tareas_tem.sql
+      - ../node_modules/dmencu/install/sincronizacion_tem.sql
+      - ../node_modules/dmencu/install/control_disform_cerrado_trg.sql
+      - ../node_modules/dmencu/install/control_cargado_tareas_tem_trg.sql
       - configuracion_sorteo_ggs2022.sql
 login:
   infoFieldList: [usuario, rol, idper]
