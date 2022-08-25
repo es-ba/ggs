@@ -6,7 +6,7 @@ import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
 import {tem_hogar} from  "./table-tem_hogar";
 
-const APP_DM_VERSION="#22-08-03";
+const APP_DM_VERSION="#22-08-25";
 
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Base:T){
