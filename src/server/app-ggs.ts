@@ -201,6 +201,11 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 'select tareas.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana, t.resultado_blaise '
             );
         })
+        be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition, context:Context){
+            tableDef.fields.push(
+                {name:'usuario_blaise' , typeName:'text' , editable: true },
+            );
+        })
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){
         //    tableDef.fields.splice(2,0,
         //        {name:'persona'     , typeName:'bigint'   , editable: false},
