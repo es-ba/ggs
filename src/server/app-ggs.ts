@@ -6,6 +6,14 @@ import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
 import {tem_hogar} from  "./table-tem_hogar";
 
+import { viviendas           } from './table-viviendas';
+import { visitas             } from './table-visitas';
+import { hogares             } from './table-hogares';
+import { personas            } from './table-personas';
+import { visitas_sup         } from './table-visitas_sup';
+import { hogares_sup         } from './table-hogares_sup';
+import { personas_sup        } from './table-personas_sup';
+
 const APP_DM_VERSION="#22-09-08";
 
 export type Constructor<T> = new(...args: any[]) => T;
@@ -145,6 +153,14 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         this.getTableDefinition={
             ...this.getTableDefinition,
             tem_hogar,
+
+            viviendas,
+            visitas,
+            hogares,
+            personas,
+            visitas_sup,
+            hogares_sup,
+            personas_sup,
         }
 
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, context:Context){
