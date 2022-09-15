@@ -117,6 +117,8 @@ var esRealizada = (respuestas:Respuestas)=>{
                             }else{
                                 reah=2;
                             } 
+                        }else if(resp_entrea_ind==1  &&  resp_reams_ind==2 ) { //generalizar
+                            reah=2;
                         }else if(resp_entrea_ind==2  && ( resp_reams_ind==2 ||resp_resulcita_ind==2 || resp_resulcita_ind==3 )){
                             reah =2;
                         }else if(resp_entrea_ind==2 && resp_resulcita_ind==null){ //pendiente
