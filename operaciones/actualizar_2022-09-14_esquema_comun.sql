@@ -1,6 +1,7 @@
--- set role preju_test2022_owner;
--- set role preju_capa2022_owner;
---set role preju2022_owner;
+-- set role ggs_test2022_owner;
+-- set role ggs_capa2022_owner;
+ set role ggs2022_owner;
+ --OJO TAMBIEN CAMBIAR ADMIN
 
 drop schema if exists "comun" cascade;
 create schema "comun";
