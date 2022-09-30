@@ -110,7 +110,10 @@ var esRealizada = (respuestas:Respuestas)=>{
                         var resp_reams_ind = respuestasP['reams' as IdVariable ];
                         var resp_fin1_ind = respuestasP['fin_1' as IdVariable ];
                         var resp_fin3_ind = respuestasP['fin_3' as IdVariable ];
-                        //console.log ('resulcita ', resp_resulcita_ind);
+                        var resp_dominio=respuestas['vdominio' as IdVariable];
+                        //console.log('dominio ', resp_dominio);
+                        resp_entrea_ind =resp_dominio=='5'?1:resp_entrea_ind;   //ajuste para dominio 5
+                       // console.log('resp_entrea_ind ', resp_entrea_ind);  
                         if(( resp_entrea_ind==1 && resp_reams_ind==1 )||( resp_entrea_ind==2 && resp_resulcita_ind==1)){ 
                             if(resp_fin1_ind==1){ 
                                 reah = 1    // determinar si esta ok tmb considerar resp_fin3_ind==1 para indicar que es una encuesta respondente
