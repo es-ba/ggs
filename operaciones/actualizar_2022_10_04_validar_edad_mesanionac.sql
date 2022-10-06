@@ -120,12 +120,12 @@ BEGIN
   esfecha_realiz= comun.es_fecha(to_char(p_f_realiz,'DD/MM/YYYY' ));
   esfecha_mesanio= comun.es_fecha(v_nac_comp);
   xedad=p_edad::integer;
-  raise notice 'vnaccompl % fecha_realiz % mesanio %', v_nac_comp, esfecha_realiz, esfecha_mesanio ;
+ -- raise notice 'vnaccompl % fecha_realiz % mesanio %', v_nac_comp, esfecha_realiz, esfecha_mesanio ;
   if (esfecha_realiz=1 and esfecha_mesanio=1) then
      v_edad= extract(year from age( p_f_realiz,v_nac_comp::date));
-     raise notice 'vedad %', v_edad;
+    -- raise notice 'vedad %', v_edad;
      if v_edad = xedad then
-        raise notice 'v_edad % p_edad %', v_edad, xedad ; 
+       -- raise notice 'v_edad % p_edad %', v_edad, xedad ; 
         return true;
      else 
         return false;
