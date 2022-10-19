@@ -13,6 +13,7 @@ import { personas            } from './table-personas';
 import { visitas_sup         } from './table-visitas_sup';
 import { hogares_sup         } from './table-hogares_sup';
 import { personas_sup        } from './table-personas_sup';
+import { grilla_rea_sin_blaise } from './grilla-rea_sin_blaise';
 
 const APP_DM_VERSION="#22-10-06";
 
@@ -104,6 +105,8 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                         {menuType:'table', name:'comuna' , table:'control_campo_comuna'},
                         {menuType:'table', name:'área'   , table:'control_campo_area'  },
                         {menuType:'table', name:'participacion'        , table:'control_campo_participacion'  },
+                        {menuType:'table', name:'grilla_rea_sin_blaise', label: 'rea sin blaise'}
+
                     ]},            
                 )
             }
@@ -161,6 +164,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             visitas_sup,
             hogares_sup,
             personas_sup,
+            grilla_rea_sin_blaise,
         }
 
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, context:Context){
