@@ -144,7 +144,7 @@ export const procedures : ProcedureDef[] = [
             )
             where enc=venc 
             */
-            return (`Listo. Limpieza realizada en la persona ${params.persona} del hogar ${params.hogar} encuesta ${params.enc} . Entre a la encuesta y modifique la primera observacion`)
+            return (`Listo. Limpieza realizada en la persona ${params.persona} del hogar ${params.hogar} encuesta ${params.enc}. Por favor consista la encuesta`)
         }        
     },
     
