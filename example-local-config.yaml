@@ -1,10 +1,6 @@
 db:
-  port: 5435
+  port: 5433
   password: PONERPASSWOR
-log:
-  req: false
-  db:
-    on-demand: true
 install:
   table-data-dir:
 login:

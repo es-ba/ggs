@@ -1,13 +1,14 @@
 "use strict";
 
-import { ProcedureDef, TableDefinition, Client, ProcedureContext, coreFunctionParameters } from "./types-ggs";
+import { ProcedureDef, TableDefinition, Client, ProcedureContext, CoreFunctionParameters } from "./types-ggs";
 import {json, jsono} from "pg-promise-strict";
 import { setHdrQuery, getOperativoActual } from "dmencu/dist/server/server/procedures-dmencu"
 import { hogares } from "./table-hogares";
+import { IdUnidadAnalisis } from "dmencu/dist/server/unlogged/tipos";
 
-setHdrQuery((quotedCondViv:string)=>{
+setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrincipal:IdUnidadAnalisis)=>{
     return `
-    with viviendas as 
+    with ${context.be.db.quoteIdent(unidadAnalisisPrincipal)} as 
         (select enc, t.json_encuesta as respuestas, t.resumen_estado as "resumenEstado", 
             jsonb_build_object(
                 'dominio'       , dominio       ,
@@ -41,25 +42,24 @@ setHdrQuery((quotedCondViv:string)=>{
             group by t.operativo, t.enc, t.json_encuesta, t.resumen_estado, dominio, nomcalle,sector,edificio, entrada, nrocatastral, piso,departamento,habitacion,casa,reserva,tt.carga_observaciones, cita, t.area, tarea, fecha_asignacion, asignado, main_form
         )
         select jsonb_build_object(
-                'viviendas', ${jsono(
-                    `select enc, respuestas, jsonb_build_object('resumenEstado',"resumenEstado") as otras from viviendas`,
+                ${context.be.db.quoteLiteral(unidadAnalisisPrincipal)}, ${jsono(
+                    `select enc, respuestas, jsonb_build_object('resumenEstado',"resumenEstado") as otras from ${context.be.db.quoteIdent(unidadAnalisisPrincipal)}`,
                     'enc',
                     `otras || coalesce(respuestas,'{}'::jsonb)`
                 )}
             ) as respuestas,
             ${json(`
                 select area as carga, observaciones_hdr as observaciones, min(fecha_asignacion) as fecha
-                    from viviendas inner join areas using (area) 
+                    from ${context.be.db.quoteIdent(unidadAnalisisPrincipal)} inner join areas using (area) 
                     group by area, observaciones_hdr`, 
                 'fecha')} as cargas,
             ${jsono(
-                `select enc, jsonb_build_object('tem', tem, 'tarea', tarea, 'codigosBlaise', codigos_blaise) as otras from viviendas`,
+                `select enc, jsonb_build_object('tem', tem, 'tarea', tarea, 'codigosBlaise', codigos_blaise) as otras from ${context.be.db.quoteIdent(unidadAnalisisPrincipal)}`,
                     'enc',
                     `otras ||'{}'::jsonb`
                 )}
             as "informacionHdr"
 `
-    
 })
 
 export const procedures : ProcedureDef[] = [
@@ -74,7 +74,7 @@ export const procedures : ProcedureDef[] = [
         ],
         roles:['subcoordinador','coordinador','admin'],
         progress:true,
-        coreFunction:async function(context:ProcedureContext, params: coreFunctionParameters){
+        coreFunction:async function(context:ProcedureContext, params: CoreFunctionParameters<{enc:string, hogar:number, persona:number, nombre_persona:string, confirma:boolean}>):Promise<string> {
             if (!params.confirma){
                 throw new Error('No confirmó la limpieza')
             }
