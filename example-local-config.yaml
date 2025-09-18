@@ -1,8 +1,15 @@
 db:
+  database: ggs2025_db
+  user: ggs2025_admin
   port: 5433
-  password: PONERPASSWOR
+  password: PONER_PASSWORD
 install:
-  table-data-dir:
+  dump:
+    db:
+      owner: ggs2025_owner
+  table-data-dir: 
+    - ../dmencu-data/ggs2025
+    - ../dmencu-data/templates_app_final #no borrar, dejar último, chequea los tabs obligatorios al correr -- --dump-db
 login:
   plus:
     secret: PONERSECRET
