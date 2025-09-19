@@ -68,7 +68,6 @@ login:
     fileStore: false
     skipCheckAlreadyLoggedIn: true
     loginForm:
-      formTitle: GGS2025
       usernameLabel: usuario
       passwordLabel: clave
       buttonLabel: entrar
@@ -85,11 +84,9 @@ login:
     lockedFail: el usuario se encuentra bloqueado
     inactiveFail: es usuario está marcado como inactivo
 client-setup:
-  title: GGS2025
   cursors: true
   lang: es
   menu: true
-  operativo: ggs2025
   background-img: ../img/background-test.png
   deviceWidthForMobile: device-width
   user-scalable: no

@@ -14,12 +14,16 @@ login:
   plus:
     secret: PONERSECRET
     allowHttpLogin: true
+    loginForm:
+      formTitle: GGS2025
 devel:
   forceShowAsEditable: false
   useFileDevelopment: true
 client-setup:
   skin: ""
   lang: es
+  title: GGS2025
+  operativo: ggs2025
 server:
   skins:
     confort:
