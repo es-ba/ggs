@@ -41,9 +41,9 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             { type: 'js', src: 'my-render-formulario.js' },
         ])
     }
-    createResourcesForCacheJson(parameters){
+    createResourcesForCacheJson(){
         var be = this;
-        var jsonResult = super.createResourcesForCacheJson(parameters);
+        var jsonResult = super.createResourcesForCacheJson();
         jsonResult.version = APP_DM_VERSION;
         jsonResult.appName = 'ggs';
         jsonResult.cache=jsonResult.cache.concat([
@@ -91,8 +91,8 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             grilla_rea_sin_blaise,
         }
 
-        be.appendToTableDefinition('tem',function(tableDef:TableDefinition, context:Context){
-            tableDef.hiddenColumns=tableDef.hiddenColumns.filter(element => element !='semana');
+        be.appendToTableDefinition('tem',function(tableDef:TableDefinition){
+            tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
            // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
             tableDef.fields.splice(26, 0, 
@@ -119,8 +119,8 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
         });
 
-        be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition, context:Context){
-            tableDef.hiddenColumns=tableDef.hiddenColumns.filter(element => element !='semana');
+        be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition){
+            tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
            // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.splice(26, 0, 
                 {name :'recep_blaise'        , typeName: 'text'   , editable: false, inTable: false },
@@ -145,7 +145,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 'select tareas.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana, t.resultado_blaise '
             );
         })
-        be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition, context:Context){
+        be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition){
             tableDef.fields.push(
                 {name:'usuario_blaise' , typeName:'text' , editable: true },
             );
