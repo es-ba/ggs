@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../ggs_backups"
+		}
+	],
+	"settings": {
+		"window.title": "⚧ ${dirty}${separator}${rootName}${separator}${activeEditorMedium}",
+		"typescript.tsdk": "node_modules/typescript/lib"
+	}
+}
