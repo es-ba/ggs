@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../ggs_backups"
+		},
+		{
+			"path": "../dmencu-data"
 		}
 	],
 	"settings": {
