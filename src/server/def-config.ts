@@ -51,7 +51,6 @@ install:
       - ../node_modules/dmencu/install/inicial_update_varcal_por_encuesta.sql
       - ../node_modules/dmencu/install/desintegrarpk.sql
       - ../node_modules/dmencu/install/actualizar_inconvar.sql
-      - configuracion_sorteo_ggs2025.sql
 login:
   infoFieldList: [usuario, rol, idper]
   table: usuarios
