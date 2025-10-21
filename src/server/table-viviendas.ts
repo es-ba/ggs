@@ -267,38 +267,10 @@ export function viviendas(context:TableContext):TableDefinition {
         "vivienda"
     ],
     "detailTables": [
-        {
-            "table": "visitas",
-            "fields": [
-                "operativo",
-                "vivienda"
-            ],
-            "abr": "v"
-        },
-        {
-            "table": "hogares",
-            "fields": [
-                "operativo",
-                "vivienda"
-            ],
-            "abr": "h"
-        },
-        {
-            "table": "visitas_sup",
-            "fields": [
-                "operativo",
-                "vivienda"
-            ],
-            "abr": "vs"
-        },
-        {
-            "table": "hogares_sup",
-            "fields": [
-                "operativo",
-                "vivienda"
-            ],
-            "abr": "hs"
-        }
+        {"table": "visitas", "fields": ["operativo", "vivienda"], "abr": "v"},
+        // {"table": "hogares", "fields": ["operativo", "vivienda"], "abr": "h"},
+        {"table": "visitas_sup", "fields": ["operativo", "vivienda"], "abr": "vs"},
+        // {"table": "hogares_sup", "fields": ["operativo", "vivienda"], "abr": "hs"}
     ]
 };
 }
