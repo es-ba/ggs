@@ -9,9 +9,15 @@ import {tem_hogar} from  "./table-tem_hogar";
 import { viviendas           } from './table-viviendas';
 import { visitas             } from './table-visitas';
 import { hogares             } from './table-hogares';
+import { visitas_web         } from './table-visitas_web';
+import { visitas_tel         } from './table-visitas_tel';
+import { visitas_pres        } from './table-visitas_pres';
 import { personas            } from './table-personas';
 import { visitas_sup         } from './table-visitas_sup';
 import { hogares_sup         } from './table-hogares_sup';
+import { visitas_web_sup         } from './table-visitas_web_sup';
+import { visitas_tel_sup         } from './table-visitas_tel_sup';
+import { visitas_pres_sup         } from './table-visitas_pres_sup';
 import { personas_sup        } from './table-personas_sup';
 import { grilla_rea_sin_blaise } from './grilla-rea_sin_blaise';
 
@@ -80,16 +86,26 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         this.getTableDefinition={
             ...this.getTableDefinition,
             tem_hogar,
-
+            
             viviendas,
             visitas,
             hogares,
             personas,
             visitas_sup,
             hogares_sup,
+            visitas_web,
+            visitas_tel,
+            visitas_pres,
+            visitas_web_sup,
+            visitas_tel_sup,
+            visitas_pres_sup,
             personas_sup,
             grilla_rea_sin_blaise,
         }
+        // delete(this.getTableDefinition.hogares);
+        // delete(this.getTableDefinition.hogares_sup);
+        // delete(this.getTableDefinition.visitas);
+        // delete(this.getTableDefinition.visitas_sup);
 
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
