@@ -9,12 +9,12 @@ export function visitas_web(context: TableContext): TableDefinition {
         "fields": [
             { "name": "operativo", "typeName": "text", "nullable": false },
             { "name": "vivienda", "typeName": "text", "nullable": false },
-            { "name": "visita_web", "typeName": "integer", "nullable": false },
+            { "name": "visita_web", "typeName": "bigint", "nullable": false },
             { "name": "anoenc", "typeName": "bigint", "nullable": true },
             { "name": "rol", "typeName": "text", "nullable": true },
-            { "name": "per", "typeName": "integer", "nullable": true },
+            { "name": "per", "typeName": "bigint", "nullable": true },
             { "name": "usu", "typeName": "text", "nullable": true },
-            { "name": "modo", "typeName": "integer", "nullable": true },
+            { "name": "modo", "typeName": "bigint", "nullable": true },
             { "name": "fecha", "typeName": "text", "nullable": true },
             { "name": "hora", "typeName": "text", "nullable": true },
             { "name": "anotacion", "typeName": "text", "nullable": true }
