@@ -23,9 +23,6 @@ export function personas(context:TableContext):TableDefinition {
         {"name": "p6b",                "typeName": "bigint", "nullable": true},
         {"name": "p722",               "typeName": "bigint", "nullable": true},
         {"name": "p825",               "typeName": "bigint", "nullable": true},
-        {"name": "msi",                "typeName": "bigint", "nullable": true},
-        {"name": "msnombrei",          "typeName": "text",   "nullable": true},
-        {"name": "msedadi",            "typeName": "bigint", "nullable": true},
         {"name": "entreaind",          "typeName": "bigint", "nullable": true},
         {"name": "movili",             "typeName": "text",   "nullable": true},
         {"name": "correoi",            "typeName": "text",   "nullable": true},
@@ -36,12 +33,18 @@ export function personas(context:TableContext):TableDefinition {
         {"name": "telms",              "typeName": "text",   "nullable": true},
         {"name": "correoms",           "typeName": "text",   "nullable": true},
         {"name": "nacms",              "typeName": "text",   "nullable": true},
-        {"name": "id_blaise",          "typeName": "text",   "nullable": true},
-        {"name": "id_blaise_parseado", "typeName": "text",   "nullable": true},
-        {"name": "fin_1",              "typeName": "bigint", "nullable": true},
-        {"name": "fin_2",              "typeName": "bigint", "nullable": true},
-        {"name": "escif",              "typeName": "text",   "nullable": true},
-        {"name": "fin_3",              "typeName": "bigint", "nullable": true},
+
+        // SACAMOS ESTOS CAMPOS, Y LOS LLEVAMOS A VIVIENDAS PARA PODER GUARDAR PROVISIONALMENTE
+        // {"name": "msi",                "typeName": "bigint", "nullable": true},
+        // {"name": "msnombrei",          "typeName": "text",   "nullable": true},
+        // {"name": "msedadi",            "typeName": "bigint", "nullable": true},
+        // {"name": "id_blaise",          "typeName": "text",   "nullable": true},
+        // {"name": "id_blaise_parseado", "typeName": "text",   "nullable": true},
+        // {"name": "fin_1",              "typeName": "bigint", "nullable": true},
+        // {"name": "fin_2",              "typeName": "bigint", "nullable": true},
+        // {"name": "escif",              "typeName": "text",   "nullable": true},
+        // {"name": "fin_3",              "typeName": "bigint", "nullable": true},
+
         {name: "obs_faltantes", typeName: "text"}
     ],
     "sql": {

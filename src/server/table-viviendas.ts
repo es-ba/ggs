@@ -38,7 +38,7 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "tel4", "typeName": "bigint", "nullable": true},
         {"name": "rea_tel", "typeName": "bigint", "nullable": true},
         {"name": "rea_pres", "typeName": "bigint", "nullable": true},
-        {"name": "TEL5", "typeName": "bigint", "nullable": true},
+        {"name": "tel5", "typeName": "bigint", "nullable": true},
         {"name": "4_esp", "typeName": "bigint", "nullable": true},
 
         {"name": "soporte", "typeName": "bigint", "nullable": true},
@@ -87,7 +87,18 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "sp1c", "typeName": "bigint", "nullable": true},
         {"name": "sp3_sup", "typeName": "bigint", "nullable": true},
         {"name": "total_h_sup", "typeName": "bigint", "nullable": true},
-        {"name": "consistido"    , "label":'consistido' , "typeName": 'timestamp'}
+        {"name": "consistido"    , "label":'consistido' , "typeName": 'timestamp'},
+
+        //campos de personas que agregamos en viviendas provisoriamente para poder guardar
+        {"name": "msi",                "typeName": "bigint", "nullable": true},
+        {"name": "msnombrei",          "typeName": "text",   "nullable": true},
+        {"name": "msedadi",            "typeName": "bigint", "nullable": true},
+        {"name": "id_blaise",          "typeName": "text",   "nullable": true},
+        {"name": "id_blaise_parseado", "typeName": "text",   "nullable": true},
+        {"name": "fin_1",              "typeName": "bigint", "nullable": true},
+        {"name": "fin_2",              "typeName": "bigint", "nullable": true},
+        {"name": "fin_3",              "typeName": "bigint", "nullable": true},
+        {"name": "escif",              "typeName": "text",   "nullable": true},
     ],
     "sql": {
         "isReferable": true
