@@ -14,7 +14,6 @@ export function visitas_web(context: TableContext): TableDefinition {
             { "name": "rol", "typeName": "text", "nullable": true },
             { "name": "per", "typeName": "bigint", "nullable": true },
             { "name": "usu", "typeName": "text", "nullable": true },
-            { "name": "modo", "typeName": "bigint", "nullable": true },
             { "name": "fecha", "typeName": "text", "nullable": true },
             { "name": "hora", "typeName": "text", "nullable": true },
             { "name": "anotacion", "typeName": "text", "nullable": true }

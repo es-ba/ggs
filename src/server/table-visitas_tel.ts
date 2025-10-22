@@ -14,7 +14,6 @@ export function visitas_tel(context: TableContext): TableDefinition {
             { "name": "rol", "typeName": "text", "nullable": true },
             { "name": "per", "typeName": "integer", "nullable": true },
             { "name": "usu", "typeName": "text", "nullable": true },
-            { "name": "modo", "typeName": "integer", "nullable": true },
             { "name": "fecha", "typeName": "text", "nullable": true },
             { "name": "hora", "typeName": "text", "nullable": true },
             { "name": "anotacion", "typeName": "text", "nullable": true }
