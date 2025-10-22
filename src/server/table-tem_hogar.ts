@@ -12,11 +12,10 @@ export function tem_hogar(context:TableContext):TableDefinition {
         fields:[
             {name:'operativo'  ,  typeName: 'text',     editable: true, nullable: false },
             {name:'enc'        ,  typeName: 'text',     editable: true, nullable: false },
-            {name:'hogar'      ,  typeName: 'integer',  editable: true, nullable: false },
             {name:'idblaise'   ,  typeName: 'integer',  editable: true, nullable: false },
             
         ],
-        primaryKey:['operativo','enc', 'hogar'],
+        primaryKey:['operativo','enc'],
         hiddenColumns:[
             'TEM__cluster',
         ],

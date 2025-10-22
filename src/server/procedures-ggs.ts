@@ -3,7 +3,6 @@
 import { ProcedureDef, TableDefinition, Client, ProcedureContext, CoreFunctionParameters } from "./types-ggs";
 import {json, jsono} from "pg-promise-strict";
 import { setHdrQuery, getOperativoActual } from "dmencu/dist/server/server/procedures-dmencu"
-import { hogares } from "./table-hogares";
 import { IdUnidadAnalisis } from "dmencu/dist/server/unlogged/tipos";
 
 setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrincipal:IdUnidadAnalisis)=>{
@@ -33,8 +32,8 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                 'main_form', main_form
             ) as tarea,
             ${jsono(
-                `select enc, hogar, idblaise from tem_hogar where operativo = t.operativo and enc = t.enc`,
-                'hogar'
+                `select enc, idblaise from tem_hogar where operativo = t.operativo and enc = t.enc`,
+                'enc'
             )} as "codigos_blaise",
             min(fecha_asignacion) as fecha_asignacion
             from tem t left join tareas_tem tt using (operativo, enc) left join tareas using (tarea)
