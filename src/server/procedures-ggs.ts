@@ -62,89 +62,89 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
 })
 
 export const procedures : ProcedureDef[] = [
-    {
-        action:'limpiar_individual',
-        parameters:[
-            {name:'enc'            ,references:'tem'       , typeName:'text'    },
-            {name:'hogar'          ,references:'personas'  , typeName:'integer' },
-            {name:'persona'        ,references:'personas'  , typeName:'integer', label:'persona cuyos datos de I1 hay que limpiar' },
-            {name:'nombre_persona'           , typeName:'text'   , label:'nombre de la persona cuyos datos del I1 hay que limpiar' },
-            {name:'confirma'                 , typeName:'boolean', defaultValue:false, label:'Confirma borrado de los datos del I1 de la persona? ' },
-        ],
-        roles:['subcoordinador','coordinador','admin'],
-        progress:true,
-        coreFunction:async function(context:ProcedureContext, params: CoreFunctionParameters<{enc:string, hogar:number, persona:number, nombre_persona:string, confirma:boolean}>):Promise<string> {
-            if (!params.confirma){
-                throw new Error('No confirmó la limpieza')
-            }
+    // {
+    //     action:'limpiar_individual',
+    //     parameters:[
+    //         {name:'enc'            ,references:'tem'       , typeName:'text'    },
+    //         {name:'hogar'          ,references:'personas'  , typeName:'integer' },
+    //         {name:'persona'        ,references:'personas'  , typeName:'integer', label:'persona cuyos datos de I1 hay que limpiar' },
+    //         {name:'nombre_persona'           , typeName:'text'   , label:'nombre de la persona cuyos datos del I1 hay que limpiar' },
+    //         {name:'confirma'                 , typeName:'boolean', defaultValue:false, label:'Confirma borrado de los datos del I1 de la persona? ' },
+    //     ],
+    //     roles:['subcoordinador','coordinador','admin'],
+    //     progress:true,
+    //     coreFunction:async function(context:ProcedureContext, params: CoreFunctionParameters<{enc:string, hogar:number, persona:number, nombre_persona:string, confirma:boolean}>):Promise<string> {
+    //         if (!params.confirma){
+    //             throw new Error('No confirmó la limpieza')
+    //         }
 
-            const OPERATIVO = await getOperativoActual(context);
-            // validar que no sea el seleccionado
-            const seleccionado = (await context.client.query(`
-                SELECT case when con_dato(cr_num_miembro_ing) and cr_num_miembro_ing<=1 and cr_num_miembro_ing<=total_m then cr_num_miembro_ing else cr_num_miembro  end elegido
-                  FROM hogares h 
-                  WHERE operativo=$1 and vivienda=$2 and hogar=$3 
-            `,[OPERATIVO, params.enc, params.hogar]).fetchUniqueValue()).value;
-            if (params.persona == seleccionado) {
-                throw new Error('Error, está queriendo limpiar al seleccionado!');
-            }
-            //validar nombre 
-            const nombre_per=(await context.client.query(`
-                select nombre from personas where operativo=$1 and vivienda=$2 and hogar=$3 and persona=$4
-                `,[OPERATIVO, params.enc, params.hogar, params.persona]).fetchUniqueValue()).value;
-             if ( !nombre_per)  {
-                    throw new Error('Error, la persona a limpiar no existe o su nombre no esta ingresado!');
-            }            
-            if (params.nombre_persona !== nombre_per) {
-                    throw new Error('Error, no coincide el nombre de la persona a limpiar!');
-            }
+    //         const OPERATIVO = await getOperativoActual(context);
+    //         // validar que no sea el seleccionado
+    //         const seleccionado = (await context.client.query(`
+    //             SELECT case when con_dato(cr_num_miembro_ing) and cr_num_miembro_ing<=1 and cr_num_miembro_ing<=total_m then cr_num_miembro_ing else cr_num_miembro  end elegido
+    //               FROM hogares h 
+    //               WHERE operativo=$1 and vivienda=$2 and hogar=$3 
+    //         `,[OPERATIVO, params.enc, params.hogar]).fetchUniqueValue()).value;
+    //         if (params.persona == seleccionado) {
+    //             throw new Error('Error, está queriendo limpiar al seleccionado!');
+    //         }
+    //         //validar nombre 
+    //         const nombre_per=(await context.client.query(`
+    //             select nombre from personas where operativo=$1 and vivienda=$2 and hogar=$3 and persona=$4
+    //             `,[OPERATIVO, params.enc, params.hogar, params.persona]).fetchUniqueValue()).value;
+    //          if ( !nombre_per)  {
+    //                 throw new Error('Error, la persona a limpiar no existe o su nombre no esta ingresado!');
+    //         }            
+    //         if (params.nombre_persona !== nombre_per) {
+    //                 throw new Error('Error, no coincide el nombre de la persona a limpiar!');
+    //         }
 
-            const listVarI1=(await context.client.query(`
-                with recursive subcasilleros(operativo, id_casillero) as (
-                  select operativo, id_casillero, 0::bigint as depth
-                       FROM casilleros where operativo=$1 and id_casillero='F:I1'
-                  union all
-                    select c.operativo, c.id_Casillero, s.depth+1
-                        from subcasilleros s inner join casilleros c 
-                            on s.operativo = c.operativo and s.id_casillero = c.padre
-                ), x AS (select  s.*, cr.*
-                    from subcasilleros s, lateral casilleros_recursivo(operativo, id_casillero) cr
-                    where s.operativo=$2 
-                    order by s.depth desc, orden_total desc
-                )
-                select string_agg(quote_literal(var_name), '-' order by orden_total) jsonKeyBorrado, string_agg (concat(var_name,'=null'),', ') setUpd   from casilleros c , x
-                where x.operativo=c.operativo and x.id_casillero=c.id_casillero
-                    and c.var_name is not null
-                `,[OPERATIVO,OPERATIVO]).fetchUniqueRow()).row;
+    //         const listVarI1=(await context.client.query(`
+    //             with recursive subcasilleros(operativo, id_casillero) as (
+    //               select operativo, id_casillero, 0::bigint as depth
+    //                    FROM casilleros where operativo=$1 and id_casillero='F:I1'
+    //               union all
+    //                 select c.operativo, c.id_Casillero, s.depth+1
+    //                     from subcasilleros s inner join casilleros c 
+    //                         on s.operativo = c.operativo and s.id_casillero = c.padre
+    //             ), x AS (select  s.*, cr.*
+    //                 from subcasilleros s, lateral casilleros_recursivo(operativo, id_casillero) cr
+    //                 where s.operativo=$2 
+    //                 order by s.depth desc, orden_total desc
+    //             )
+    //             select string_agg(quote_literal(var_name), '-' order by orden_total) jsonKeyBorrado, string_agg (concat(var_name,'=null'),', ') setUpd   from casilleros c , x
+    //             where x.operativo=c.operativo and x.id_casillero=c.id_casillero
+    //                 and c.var_name is not null
+    //             `,[OPERATIVO,OPERATIVO]).fetchUniqueRow()).row;
 
-            var pos_hog:number=params.hogar-1;
-            var pos_per:number=params.persona-1;
-            var strUpdTem=`
-              update tem set json_encuesta=jsonb_set(json_encuesta,'{hogares,${pos_hog},personas,${pos_per}}',
-                (json_encuesta#>('{hogares,${pos_hog},personas,${pos_per}}')) - ${listVarI1.jsonkeyborrado} )
-                where operativo=$1 and enc=$2
-            `;
-            await context.client.query(strUpdTem
-              , [ OPERATIVO, params.enc]
-            ).execute();
-            var strUpdPer=`
-              update personas 
-                set ${listVarI1.setupd}
-                where operativo=$1 and vivienda=$2 and hogar=$3 and persona=$4
-            `;
-            await context.client.query(strUpdPer
-              , [ OPERATIVO, params.enc, params.hogar, params.persona]
-              ).execute();
+    //         var pos_hog:number=params.hogar-1;
+    //         var pos_per:number=params.persona-1;
+    //         var strUpdTem=`
+    //           update tem set json_encuesta=jsonb_set(json_encuesta,'{hogares,${pos_hog},personas,${pos_per}}',
+    //             (json_encuesta#>('{hogares,${pos_hog},personas,${pos_per}}')) - ${listVarI1.jsonkeyborrado} )
+    //             where operativo=$1 and enc=$2
+    //         `;
+    //         await context.client.query(strUpdTem
+    //           , [ OPERATIVO, params.enc]
+    //         ).execute();
+    //         var strUpdPer=`
+    //           update personas 
+    //             set ${listVarI1.setupd}
+    //             where operativo=$1 and vivienda=$2 and hogar=$3 and persona=$4
+    //         `;
+    //         await context.client.query(strUpdPer
+    //           , [ OPERATIVO, params.enc, params.hogar, params.persona]
+    //           ).execute();
 
-            /*
-            UPDATE tem set json_encuesta=jsonb_set(json_encuesta,'{hogares,vhogar-1,personas,vpersona-1}',
-            (json_encuesta#>('{hogares,vhogar-1,personas,vpersona-1}')) 
-            -'msi'-'msnombrei'-'msedadi'-'entreaind'-'movili'-'correoi'-'fecha_cita'-'hora_cita'-'resulcita'-'reams'-'telms'-'correoms'-'nacms'-'id_blaise'-'id_blaise_parseado'-'fin_1'-'fin_2'-'escif'-'fin_3'
-            )
-            where enc=venc 
-            */
-            return (`Listo. Limpieza realizada en la persona ${params.persona} del hogar ${params.hogar} encuesta ${params.enc}. Por favor consista la encuesta`)
-        }        
-    },
+    //         /*
+    //         UPDATE tem set json_encuesta=jsonb_set(json_encuesta,'{hogares,vhogar-1,personas,vpersona-1}',
+    //         (json_encuesta#>('{hogares,vhogar-1,personas,vpersona-1}')) 
+    //         -'msi'-'msnombrei'-'msedadi'-'entreaind'-'movili'-'correoi'-'fecha_cita'-'hora_cita'-'resulcita'-'reams'-'telms'-'correoms'-'nacms'-'id_blaise'-'id_blaise_parseado'-'fin_1'-'fin_2'-'escif'-'fin_3'
+    //         )
+    //         where enc=venc 
+    //         */
+    //         return (`Listo. Limpieza realizada en la persona ${params.persona} del hogar ${params.hogar} encuesta ${params.enc}. Por favor consista la encuesta`)
+    //     }        
+    // },
     
 ];
