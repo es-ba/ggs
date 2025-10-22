@@ -9,10 +9,10 @@ export function visitas_tel(context: TableContext): TableDefinition {
         "fields": [
             { "name": "operativo", "typeName": "text", "nullable": false },
             { "name": "vivienda", "typeName": "text", "nullable": false },
-            { "name": "visita_tel", "typeName": "integer", "nullable": false },
+            { "name": "visita_tel", "typeName": "bigint", "nullable": false },
             { "name": "anoenc", "typeName": "bigint", "nullable": true },
             { "name": "rol", "typeName": "text", "nullable": true },
-            { "name": "per", "typeName": "integer", "nullable": true },
+            { "name": "per", "typeName": "bigint", "nullable": true },
             { "name": "usu", "typeName": "text", "nullable": true },
             { "name": "fecha", "typeName": "text", "nullable": true },
             { "name": "hora", "typeName": "text", "nullable": true },

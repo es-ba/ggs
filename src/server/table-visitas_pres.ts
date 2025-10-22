@@ -9,10 +9,10 @@ export function visitas_pres(context: TableContext): TableDefinition {
         "fields": [
             { "name": "operativo", "typeName": "text", "nullable": false },
             { "name": "vivienda", "typeName": "text", "nullable": false },
-            { "name": "visita_pres", "typeName": "integer", "nullable": false },
+            { "name": "visita_pres", "typeName": "bigint", "nullable": false },
             { "name": "anoenc", "typeName": "bigint", "nullable": true },
             { "name": "rol", "typeName": "text", "nullable": true },
-            { "name": "per", "typeName": "integer", "nullable": true },
+            { "name": "per", "typeName": "bigint", "nullable": true },
             { "name": "usu", "typeName": "text", "nullable": true },
             { "name": "fecha", "typeName": "text", "nullable": true },
             { "name": "hora", "typeName": "text", "nullable": true },
