@@ -52,7 +52,7 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
                 tt.etareas->'supe'->>'asignado' as supervisor,
                 b.respid 
                 from personas p 
-                left join base.tem_hogar th on (p.operativo = th.operativo AND p.vivienda = th.enc AND p.hogar = th.hogar AND th.idblaise = p.id_blaise::integer)
+                left join base.tem_blaise th on (p.operativo = th.operativo AND p.vivienda = th.enc AND p.hogar = th.hogar AND th.idblaise = p.id_blaise::integer)
                 join base.hogares h on (th.operativo = h.operativo and th.enc=h.vivienda and th.hogar=h.hogar)
                 join base.tem t on t.operativo=h.operativo and t.enc=h.vivienda
                 left join lateral (

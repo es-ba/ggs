@@ -1,5 +1,5 @@
 
-select sql2tabla_datos('base', 'tem_hogar', 'GGS_2025');
+select sql2tabla_datos('base', 'tem_blaise', 'GGS_2025');
 select sql2tabla_datos('base', 'tem', 'GGS_2025');
 select sql2tabla_datos('base', 'viviendas', 'GGS_2025');
 select sql2tabla_datos('base', 'visitas', 'GGS_2025');

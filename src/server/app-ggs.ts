@@ -4,7 +4,7 @@ import * as dmencu from "./types-ggs";
 import {Context, MenuInfoBase, Request, Response, OptsClientPage, TableDefinition } from "./types-ggs";
 import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
-import {tem_hogar} from  "./table-tem_hogar";
+import {tem_blaise} from  "./table-tem_blaise";
 
 import { viviendas           } from './table-viviendas';
 import { visitas             } from './table-visitas';
@@ -85,7 +85,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         super.prepareGetTables();
         this.getTableDefinition={
             ...this.getTableDefinition,
-            tem_hogar,
+            tem_blaise,
             
             viviendas,
             visitas,

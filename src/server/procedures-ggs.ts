@@ -32,7 +32,7 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                 'main_form', main_form
             ) as tarea,
             ${jsono(
-                `select enc, idblaise from tem_hogar where operativo = t.operativo and enc = t.enc`,
+                `select enc, idblaise from tem_blaise where operativo = t.operativo and enc = t.enc`,
                 'enc'
             )} as "codigos_blaise",
             min(fecha_asignacion) as fecha_asignacion

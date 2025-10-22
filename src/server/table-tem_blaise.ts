@@ -2,12 +2,12 @@
 
 import {TableDefinition, TableContext} from "./types-ggs";
 
-export function tem_hogar(context:TableContext):TableDefinition {
+export function tem_blaise(context:TableContext):TableDefinition {
     var be=context.be;
     var puedeEditar = context.forDump || context.puede?.campo?.administrar||context.user.rol==='recepcionista';
     return {
-        name:'tem_hogar',
-        elementName:'tem_hogar',
+        name:'tem_blaise',
+        elementName:'tem_blaise',
         editable:puedeEditar,
         fields:[
             {name:'operativo'  ,  typeName: 'text',     editable: true, nullable: false },
