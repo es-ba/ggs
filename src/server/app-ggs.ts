@@ -19,7 +19,7 @@ import { visitas_web_sup         } from './table-visitas_web_sup';
 import { visitas_tel_sup         } from './table-visitas_tel_sup';
 import { visitas_pres_sup         } from './table-visitas_pres_sup';
 import { personas_sup        } from './table-personas_sup';
-import { grilla_rea_sin_blaise } from './grilla-rea_sin_blaise';
+import { grilla_rea_sin_blaise } from './grilla_rea_sin_blaise';
 
 const APP_DM_VERSION="#22-10-06";
 
