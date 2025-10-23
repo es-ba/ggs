@@ -22,7 +22,7 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                 'casa'          , casa          ,
                 'prioridad'     , reserva+1     ,
                 'observaciones' , tt.carga_observaciones ,
-                'cita'          , cita ,
+                'cita'          , nullif (concat_ws('//', cita, seleccionado_ant).'') ,
                 'carga'         , t.area
             ) as tem, t.area,
             jsonb_build_object(

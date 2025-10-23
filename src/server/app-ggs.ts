@@ -107,9 +107,11 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         // delete(this.getTableDefinition.visitas);
         // delete(this.getTableDefinition.visitas_sup);
 
-        be.appendToTableDefinition('tem',function(tableDef:TableDefinition){
-            tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
-           // console.log('camposhidden', tableDef.hiddenColumns )
+        be.appendToTableDefinition('tem',function(tableDef:TableDefinition, _context?:TableContext){
+            tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
+                !['seleccionado_ant','cita','semana'].includes(element)
+            );
+       // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
             tableDef.fields.splice(26, 0, 
                 {name :'recep_blaise' , typeName: 'text', editable: true  },
@@ -179,6 +181,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         //            field.editable=context.forDump || context.puede?.encuestas.justificar;
         //        }
         //    })
+        //    tableDef.fields=tableDef.fields.filter(f=>f.name !='hogar');
         //})
     }
   }

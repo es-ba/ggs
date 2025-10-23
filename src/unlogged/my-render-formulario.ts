@@ -21,10 +21,16 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
     }
     if(forPk.formulario == 'F:I1' as IdFormulario){
         let {respuestas} = respuestasForPk(forPk);
-        respuestas['msi' as IdVariable] = respuestas['$p0' as IdVariable];
-        respuestas['msnombrei' as IdVariable] = respuestas['nombre' as IdVariable];
-        respuestas['msedadi'as IdVariable] = respuestas['edad' as IdVariable];
-        let idBlaise = getDatosByPass().informacionHdr[forPk.vivienda].codigosBlaise[forPk.hogar]?.idblaise;
+        const datosByPassViv= getDatosByPass().informacionHdr[forPk.vivienda];
+        var infoSeleccionadoyCita=datosByPassViv.tem.cita;
+        var posSeparador=infoSeleccionadoyCita.indexOf('//');
+        var infoSeleccionado= posSeparador==-1?infoSeleccionadoyCita: infoSeleccionadoyCita.slice(posSeparador + 2) ;
+        var infoSeleccionadoJson=JSON.parse(infoSeleccionado.replace(/""/g,'"'));
+
+        //respuestas['msi' as IdVariable] = respuestas['$p0' as IdVariable];
+        respuestas['msnombrei' as IdVariable] = infoSeleccionadoJson.nombre;
+        respuestas['msedadi'as IdVariable] = infoSeleccionadoJson.edad;
+        let idBlaise = datosByPassViv.codigosBlaise[forPk.vivienda]?.idblaise;
         if(idBlaise){
             respuestas['id_blaise' as IdVariable] = idBlaise;
             let idParseado = idBlaise.toString().split('');
