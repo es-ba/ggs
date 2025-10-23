@@ -15,9 +15,6 @@ import { visitas_pres        } from './table-visitas_pres';
 import { personas            } from './table-personas';
 import { visitas_sup         } from './table-visitas_sup';
 import { hogares_sup         } from './table-hogares_sup';
-import { visitas_web_sup         } from './table-visitas_web_sup';
-import { visitas_tel_sup         } from './table-visitas_tel_sup';
-import { visitas_pres_sup         } from './table-visitas_pres_sup';
 import { personas_sup        } from './table-personas_sup';
 import { grilla_rea_sin_blaise } from './grilla_rea_sin_blaise';
 
@@ -96,9 +93,6 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             visitas_web,
             visitas_tel,
             visitas_pres,
-            visitas_web_sup,
-            visitas_tel_sup,
-            visitas_pres_sup,
             personas_sup,
             grilla_rea_sin_blaise,
         }
@@ -107,7 +101,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         // delete(this.getTableDefinition.visitas);
         // delete(this.getTableDefinition.visitas_sup);
 
-        be.appendToTableDefinition('tem',function(tableDef:TableDefinition, _context?:TableContext){
+        be.appendToTableDefinition('tem',function(tableDef:TableDefinition, _context?:dmencu.TableContext){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
                 !['seleccionado_ant','cita','semana'].includes(element)
             );

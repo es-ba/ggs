@@ -14,7 +14,7 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "total_vis_web", "typeName": "bigint", "nullable": true},
         {"name": "total_vis_tel", "typeName": "bigint", "nullable": true},
         {"name": "total_vis_pres", "typeName": "bigint", "nullable": true},
-        {"name": "fijo", "typeName": "bigint", "nullable": true},
+        {"name": "fijo", "typeName": "text", "nullable": true},
         {"name": "total_i1", "typeName": "bigint", "nullable": true},
         {"name": "razon_web", "typeName": "bigint", "nullable": true},
         {"name": "razon_tel", "typeName": "bigint", "nullable": true},
@@ -63,9 +63,7 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "s1a1_obs_sup", "typeName": "text", "nullable": true},
         {"name": "datos_personal_sup", "typeName": "text", "nullable": true},
         {"name": "datos_personal_enc", "typeName": "text", "nullable": true},
-        {"name": "total_vis_web_sup", "typeName": "bigint", "nullable": true},
-        {"name": "total_vis_tel_sup", "typeName": "bigint", "nullable": true},
-        {"name": "total_vis_pres_sup", "typeName": "bigint", "nullable": true},
+        {"name": "total_vis_sup", "typeName": "bigint", "nullable": true},
         {"name": "soporte_sup", "typeName": "bigint", "nullable": true},
         {"name": "modo_sup", "typeName": "bigint", "nullable": true},
         {"name": "confir_tel_sup", "typeName": "bigint", "nullable": true},
@@ -111,9 +109,7 @@ export function viviendas(context:TableContext):TableDefinition {
         {"table": "visitas_web", "fields": ["operativo", "vivienda"], "abr": "vw"},
         {"table": "visitas_tel", "fields": ["operativo", "vivienda"], "abr": "vt"},
         {"table": "visitas_pres", "fields": ["operativo", "vivienda"], "abr": "vp"},
-        {"table": "visitas_web_sup", "fields": ["operativo", "vivienda"], "abr": "vsw"},
-        {"table": "visitas_tel_sup", "fields": ["operativo", "vivienda"], "abr": "vst"},
-        {"table": "visitas_pres_sup", "fields": ["operativo", "vivienda"], "abr": "vsp"},
+        {"table": "visitas_sup", "fields": ["operativo", "vivienda"], "abr": "vs"},
     ]
 };
 }

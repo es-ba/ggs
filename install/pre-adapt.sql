@@ -11,6 +11,3 @@ select sql2tabla_datos('base', 'personas_sup', 'GGS_2025');
 select sql2tabla_datos('base', 'visitas_web', 'GGS_2025');
 select sql2tabla_datos('base', 'visitas_tel', 'GGS_2025');
 select sql2tabla_datos('base', 'visitas_pres', 'GGS_2025');
-select sql2tabla_datos('base', 'visitas_web_sup', 'GGS_2025');
-select sql2tabla_datos('base', 'visitas_tel_sup', 'GGS_2025');
-select sql2tabla_datos('base', 'visitas_pres_sup', 'GGS_2025');
