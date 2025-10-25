@@ -12,7 +12,7 @@ export function tem_blaise(context:TableContext):TableDefinition {
         fields:[
             {name:'operativo'  ,  typeName: 'text',     editable: true, nullable: false },
             {name:'enc'        ,  typeName: 'text',     editable: true, nullable: false },
-            {name:'idblaise'   ,  typeName: 'integer',  editable: true, nullable: false },
+            {name:'idblaise'   ,  typeName: 'text',  editable: true, nullable: false },
             
         ],
         primaryKey:['operativo','enc'],
