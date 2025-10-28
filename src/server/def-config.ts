@@ -9,9 +9,6 @@ db:
   host: localhost
   database: ggs_db
   schema: base
-  search_path: 
-  - base
-  - comun
 install:
   dump:
     db:
