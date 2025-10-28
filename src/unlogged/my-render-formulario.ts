@@ -19,7 +19,7 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
             }
         }
     }
-    if(forPk.formulario == 'F:I1' as IdFormulario){
+    if(respuestasRaiz.rea_web == '1' || respuestasRaiz.rea_tel == '1' || respuestasRaiz.rea_pres == '1'){
         let {respuestas} = respuestasForPk(forPk);
         const datosByPassViv= getDatosByPass().informacionHdr[forPk.vivienda];
         var infoSeleccionadoyCita=datosByPassViv.tem.cita;
