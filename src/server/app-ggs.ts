@@ -100,11 +100,18 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         // delete(this.getTableDefinition.hogares_sup);
         // delete(this.getTableDefinition.visitas);
         // delete(this.getTableDefinition.visitas_sup);
-
+        be.appendToTableDefinition('grilla_hoja_ruta',function(tableDef:TableDefinition, _context?:TableContext){
+            tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
+                !['seleccionado_ant','cita'].includes(element)
+            );
+           // console.log('camposhidden', tableDef.hiddenColumns )
+            tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
+        });
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, _context?:dmencu.TableContext){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
                 !['seleccionado_ant','cita','semana'].includes(element)
             );
+            tableDef.hiddenColumns?.push('cant_h','cant_p','seleccionado','orden_relevamiento','mapa','rotacion','enc_autogenerado_dm','enc_autogenerado_dm_capa','h4','x','y')
        // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
             tableDef.fields.splice(26, 0, 
