@@ -87,69 +87,38 @@ var esRealizada = (respuestas:Respuestas)=>{
     //determinar si fin_1, fin_2, fin_3 se van a tener en cuenta para la rea y cuales de sus valores
     var esRea = false;
     var codRea:number|null= null;
-    if(!respuestas['identif' as IdVariable]){
+    var vrea_web = respuestas['rea_web' as IdVariable];
+    var vrea_tel = respuestas['rea_tel' as IdVariable];
+    var vrea_pres = respuestas['rea_pres' as IdVariable];
+    var vfin_1 = respuestas['fin_1' as IdVariable];
+    if(!vrea_web && !vrea_tel && !vrea_pres && !vfin_1){
         return {codRea, esRea}
-    }else if(respuestas['identif' as IdVariable]==2 || respuestas['habita' as IdVariable]==2 ||respuestas['resid_hog' as IdVariable]==2||respuestas['contacto' as IdVariable]==2){
+    }else if((vrea_web==2 && vrea_tel==2 && vrea_pres==2)
+        ||(vrea_web==1 && !vrea_tel && !vrea_pres && vfin_1==2)
+        ||(vrea_web==2 && vrea_tel==1 && !vrea_pres && vfin_1==2)
+        ||(vrea_web==2 && vrea_tel==2 && vrea_pres==1 && vfin_1==2)
+    ){
         codRea = 2;
-        esRea = false;
+        esRea = false; 
+    }else if(((vrea_web==1 && !vrea_tel && !vrea_pres )
+        ||(vrea_web==2 && vrea_tel==1 && !vrea_pres )
+        ||(vrea_web==2 && vrea_tel==2 && vrea_pres==1 )) && vfin_1==1
+    ){
+        codRea = 1;
+        esRea = true;
+    }else if(
+        ((vrea_web==1 && !vrea_tel && !vrea_pres)
+            ||(vrea_web==2 && !vrea_tel && !vrea_pres )
+            ||(vrea_web==2 && vrea_tel==1 && !vrea_pres )
+            ||(vrea_web==2 && vrea_tel==2 && !vrea_pres)
+            ||(vrea_web==2 && vrea_tel==2 && vrea_pres==1)
+        ) && !vfin_1
+    ){
+        codRea = 3;
+        esRea = false; 
     }else{
-        var reahs: number[]=[] ;
-        var respuestasHs = respuestas['hogares'];
-        if(respuestasHs){
-            for(let respuestasH of respuestasHs){
-                var reah:number;
-                var selec:number;
-                if(respuestasH['entrea' ] != 1||respuestasH['ggs']==2||respuestasH['tp']==0){
-                    reah=2;
-                }else{
-                    selec=respuestasH['cr_num_miembro']
-                    if(respuestasH['personas'] && respuestasH.personas[selec-1] ){
-                        var respuestasP = respuestasH.personas[selec-1];
-                        var resp_entrea_ind = respuestasP['entreaind' as IdVariable ];
-                        var resp_resulcita_ind = respuestasP['resulcita' as IdVariable ];
-                        var resp_reams_ind = respuestasP['reams' as IdVariable ];
-                        var resp_fin1_ind = respuestasP['fin_1' as IdVariable ];
-                        var resp_fin3_ind = respuestasP['fin_3' as IdVariable ];
-                        var resp_dominio=respuestas['vdominio' as IdVariable];
-                        //console.log('dominio ', resp_dominio);
-                        resp_entrea_ind =resp_dominio=='5'?1:resp_entrea_ind;   //ajuste para dominio 5
-                       // console.log('resp_entrea_ind ', resp_entrea_ind);  
-                        if(( resp_entrea_ind==1 && resp_reams_ind==1 )||( resp_entrea_ind==2 && resp_resulcita_ind==1)){ 
-                            if(resp_fin1_ind==1){ 
-                                reah = 1    // determinar si esta ok tmb considerar resp_fin3_ind==1 para indicar que es una encuesta respondente
-                            }else{
-                                reah=2;
-                            } 
-                        }else if(resp_entrea_ind==1  &&  resp_reams_ind==2 ) { //generalizar
-                            reah=2;
-                        }else if(resp_entrea_ind==2  && ( resp_reams_ind==2 ||resp_resulcita_ind==2 || resp_resulcita_ind==3 )){
-                            reah =2;
-                        }else if(resp_entrea_ind==2 && resp_resulcita_ind==null){ //pendiente
-                            reah=3                               
-                        }
-                    }else{ // ver este caso 
-                        reah=3;
-                    }
-                }
-                reahs.push(reah);
-            }
-            if (reahs.every(rh=>rh==1)){
-                codRea = 1;
-                esRea = true;
-            }else if(reahs.every(rh=>rh==2)){
-                codRea = 2;
-                esRea = false;
-            }else if(reahs.every(rh=>rh==1||rh==3)){
-                codRea = 3;
-                esRea = false;
-            }else{
-                codRea = 4;
-                esRea = false;
-            }
-        }else{
-            codRea = 3;
+            codRea = 5;
             esRea = false;
-        }
     }
     return {codRea,esRea}
 };
