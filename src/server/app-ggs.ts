@@ -160,8 +160,8 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 {name:'semana'               , typeName:'integer' , editable: false, inTable: false },
             );
             tableDef.sql!.from = tableDef.sql!.from!.replace(
-                'select tareas.tarea, t.operativo, t.enc, t.area',
-                'select tareas.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana, t.resultado_blaise '
+                'select tt.tarea, t.operativo, t.enc, t.area',
+                'select tt.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana, t.resultado_blaise '
             );
         })
         be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition){
