@@ -18,7 +18,7 @@ import { hogares_sup         } from './table-hogares_sup';
 import { personas_sup        } from './table-personas_sup';
 import { grilla_rea_sin_blaise } from './grilla_rea_sin_blaise';
 
-const APP_DM_VERSION="#25-10-38";
+const APP_DM_VERSION="#25-10-44";
 
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Base:T){
@@ -167,6 +167,11 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition){
             tableDef.fields.push(
                 {name:'usuario_blaise' , typeName:'text' , editable: true },
+            );
+        })
+        be.appendToTableDefinition('no_rea',function(tableDef:TableDefinition){
+            tableDef.fields.push(
+                {name:'orden' , typeName:'bigint' , editable: true },
             );
         })
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){

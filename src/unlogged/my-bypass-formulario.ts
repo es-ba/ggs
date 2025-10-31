@@ -4,11 +4,12 @@ import { strict as likeAr, beingArray } from "like-ar";
 
 var esNoRea = (respuestas:Respuestas)=>{
     //TODO GENERALIZAR
-    var unidadesARecorrer = ['viviendas','hogares','personas'] as IdUnidadAnalisis[];
+    var unidadesARecorrer = ['viviendas'] as IdUnidadAnalisis[];
     var estructura = getEstructura();
     var uaPrincipal = likeAr(estructura.unidades_analisis).find((ua)=>!ua.padre);
     var esNoRea = false;
     var codNoRea:string|null= null;
+    estructura.noReas = estructura.noReas.sort((a,b)=>b.orden-a.orden);
     let resnorea = buscarNoReaEnRespuestas( unidadesARecorrer,uaPrincipal!,respuestas,estructura.noReas,'no_rea');
     codNoRea=resnorea.nrcodigo;
     esNoRea=resnorea.esvalor;
@@ -91,12 +92,20 @@ var esRealizada = (respuestas:Respuestas)=>{
     var vrea_tel = respuestas['rea_tel' as IdVariable];
     var vrea_pres = respuestas['rea_pres' as IdVariable];
     var vfin_1 = respuestas['fin_1' as IdVariable];
+    var vrazon_tel = respuestas['razon_tel' as IdVariable];
+    var vrazon_909 = respuestas['razon_909' as IdVariable];
+    var vrazon_999 = respuestas['razon_999' as IdVariable];
     if(!vrea_web && !vrea_tel && !vrea_pres && !vfin_1){
         return {codRea, esRea}
     }else if((vrea_web==2 && vrea_tel==2 && vrea_pres==2)
         ||(vrea_web==1 && !vrea_tel && !vrea_pres && vfin_1==2)
         ||(vrea_web==2 && vrea_tel==1 && !vrea_pres && vfin_1==2)
         ||(vrea_web==2 && vrea_tel==2 && vrea_pres==1 && vfin_1==2)
+        ||(vrea_web==2 && vrea_tel==2 && !vrea_pres && (
+            (vrazon_tel==909 && vrazon_909== 6)
+            ||(vrazon_tel==999 && vrazon_999==1)
+        ))
+
     ){
         codRea = 2;
         esRea = false; 
