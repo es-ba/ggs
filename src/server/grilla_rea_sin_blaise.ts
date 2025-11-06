@@ -42,7 +42,8 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
         ]
     def.sql= {
             isTable:false,
-            from:`(select th.enc, th.idblaise, t.rea, t.norea, t.cant_h, --t.recepcionista,
+            from:`(
+                SELECT th.enc, th.idblaise, t.rea, t.norea, t.cant_h, --t.recepcionista,
                 h.f_realiz_o,
                 p.*,--operativo, p.vivienda, p.hogar, p.persona, p.nombre, p.edad, p.sexo, p.nacms, p.fin_1, p.fin_3, p.obs_faltantes,
                 tt.verif_campo, tt.tarea, 
@@ -51,12 +52,12 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
                 tt.etareas->'recu'->>'asignado' as recuperador,
                 tt.etareas->'supe'->>'asignado' as supervisor,
                 b.respid 
-                from personas p 
-                left join base.tem_blaise th on (p.operativo = th.operativo AND p.vivienda = th.enc AND p.hogar = th.hogar AND th.idblaise = p.id_blaise::integer)
-                join base.hogares h on (th.operativo = h.operativo and th.enc=h.vivienda and th.hogar=h.hogar)
-                join base.tem t on t.operativo=h.operativo and t.enc=h.vivienda
-                left join lateral (
-                    select 
+                FROM personas p 
+                LEFT JOIN base.tem_blaise th ON (p.operativo = th.operativo AND p.vivienda = th.enc AND p.hogar = th.hogar AND th.idblaise = p.id_blaise::integer)
+                JOIN base.hogares h ON (th.operativo = h.operativo AND th.enc=h.vivienda AND th.hogar=h.hogar)
+                JOIN base.tem t ON t.operativo=h.operativo AND t.enc=h.vivienda
+                LEFT JOIN lateral (
+                    SELECT 
                         case when 
                             (COUNT(*) filter (where tt.tarea in ('encu','recu'))) = 
                             (COUNT(verificado) filter (where tt.tarea in ('encu','recu'))) 
@@ -66,13 +67,13 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
                             tarea,
                             jsonb_build_object('asignado',asignado, 'operacion', operacion)
                         ) etareas 
-                      from base.tareas_tem tt 
-                      where tt.operativo = th.operativo AND tt.enc=th.enc 
-                         and tt.asignado is not null and tt.operacion is not null
-                ) as tt on true
-                left join backups.backups b on (th.idblaise = b.respid)
-                where (t.rea=1 or t.rea=4) 
-                and b.respid is null)`,
+                      FROM base.tareas_tem tt 
+                      WHERE tt.operativo = th.operativo AND tt.enc=th.enc 
+                         AND tt.asignado is not null AND tt.operacion is not null
+                ) as tt ON true
+                LEFT JOIN backups.backups b ON (th.idblaise = b.respid)
+                WHERE (t.rea=1 OR t.rea=4) 
+                AND b.respid is null)`,
             insertIfNotUpdate:false
         }
     
