@@ -44,8 +44,8 @@ export function personas(context:TableContext):TableDefinition {
         // {"name": "fin_2",              "typeName": "bigint", "nullable": true},
         // {"name": "escif",              "typeName": "text",   "nullable": true},
         // {"name": "fin_3",              "typeName": "bigint", "nullable": true},
+        // {name: "obs_faltantes", typeName: "text"}
 
-        {name: "obs_faltantes", typeName: "text"}
     ],
     "sql": {
         "isReferable": true

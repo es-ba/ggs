@@ -1,32 +1,23 @@
 "use strict";
 
 import { FieldDefinition, TableContext, TableDefinition } from "dmencu";
-import { personas } from "./table-personas";
-
+import { viviendas } from "./table-viviendas";
 
 export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
-    let def = personas(context);
+    let def = viviendas(context);
     def.title= "Rea sin Blaise"
     def.allow= {import:false, delete:false, insert: false, deleteAll:false, select:true, export: true, update:true}
 
     let fieldsToShow:FieldDefinition[] =[
         {name:'enc'      ,  typeName: 'text' },
-        {name: "hogar", typeName: "bigint", nullable: false},
-        {name:'idblaise'      ,  typeName: 'integer' },
-        {name:'f_realiz_o'      ,  typeName: 'date' },
+        {name:'idblaise'      ,  typeName: 'text' },
         {name:'rea'      ,  typeName: 'integer' },
         {name:'norea'      ,  typeName: 'integer' },
-        {name:'cant_h'      ,  typeName: 'integer' },
-        {name:'nombre'      ,  typeName: 'text' },
-        {name:'edad'      ,  typeName: 'bigint' },
-        {name:'sexo'      ,  typeName: 'bigint' },
-        {name:'nacms'      ,  typeName: 'text' },
+        {name:'msnombrei'      ,  typeName: 'text' },
         {name:'tarea'      ,  typeName: 'text' },
         {name:'operacion'      ,  typeName: 'text' },
         {name:'encuestador'      ,  typeName: 'text' },
-        {name:'recuperador'      ,  typeName: 'text' },
         {name:'supervisor'      ,  typeName: 'text' },
-        // {name:'recepcionista'      ,  typeName: 'text' },
         {name:'verif_campo'      ,  typeName: 'text' },
         {name:'fin_1'      ,  typeName: 'bigint' },
         {name:'fin_3'      ,  typeName: 'bigint' },
@@ -43,19 +34,17 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
     def.sql= {
             isTable:false,
             from:`(
-                SELECT th.enc, th.idblaise, t.rea, t.norea, t.cant_h, --t.recepcionista,
-                h.f_realiz_o,
-                p.*,--operativo, p.vivienda, p.hogar, p.persona, p.nombre, p.edad, p.sexo, p.nacms, p.fin_1, p.fin_3, p.obs_faltantes,
+                SELECT tb.enc, tb.idblaise, t.rea, t.norea, t.cant_h, --t.recepcionista,
+                v.*,--operativo, v.vivienda, v.persona, v.nombre, v.edad, v.sexo, v.nacms, v.fin_1, v.fin_3, v.obs_faltantes,
                 tt.verif_campo, tt.tarea, 
                 tt.etareas->tt.tarea->>'operacion' as operacion,
                 tt.etareas->'encu'->>'asignado' as encuestador,
                 tt.etareas->'recu'->>'asignado' as recuperador,
                 tt.etareas->'supe'->>'asignado' as supervisor,
                 b.respid 
-                FROM personas p 
-                LEFT JOIN base.tem_blaise th ON (p.operativo = th.operativo AND p.vivienda = th.enc AND p.hogar = th.hogar AND th.idblaise = p.id_blaise::integer)
-                JOIN base.hogares h ON (th.operativo = h.operativo AND th.enc=h.vivienda AND th.hogar=h.hogar)
-                JOIN base.tem t ON t.operativo=h.operativo AND t.enc=h.vivienda
+                FROM viviendas v 
+                LEFT JOIN base.tem_blaise tb ON (v.operativo = tb.operativo AND v.vivienda = tb.enc AND tb.idblaise = v.id_blaise)
+                JOIN base.tem t ON t.operativo=v.operativo AND t.enc=v.vivienda
                 LEFT JOIN lateral (
                     SELECT 
                         case when 
@@ -68,10 +57,10 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
                             jsonb_build_object('asignado',asignado, 'operacion', operacion)
                         ) etareas 
                       FROM base.tareas_tem tt 
-                      WHERE tt.operativo = th.operativo AND tt.enc=th.enc 
+                      WHERE tt.operativo = tb.operativo AND tt.enc=tb.enc 
                          AND tt.asignado is not null AND tt.operacion is not null
                 ) as tt ON true
-                LEFT JOIN backups.backups b ON (th.idblaise = b.respid)
+                LEFT JOIN backups.backups b ON (tb.idblaise = b.respid)
                 WHERE (t.rea=1 OR t.rea=4) 
                 AND b.respid is null)`,
             insertIfNotUpdate:false
