@@ -17,11 +17,12 @@ var esNoRea = (respuestas:Respuestas)=>{
 };
 var esNoReaSup = (respuestas:Respuestas)=>{
     //TODO GENERALIZAR buscarNoreaRespuestas
-    var unidadesARecorrerSup = ['viviendas','hogares_sup','personas_sup'] as IdUnidadAnalisis[];
+    var unidadesARecorrerSup = ['viviendas'] as IdUnidadAnalisis[];
     var estructura = getEstructura();
     var uaPrincipal = likeAr(estructura.unidades_analisis).find((ua)=>!ua.padre);
     var esNoReaSup = false;
     var codNoReaSup:string|null= null;
+    //estructura.noReasSup = estructura.noReasSup.sort((a,b)=>a.orden-b.orden);
     let resnorea =buscarNoReaEnRespuestas( unidadesARecorrerSup,uaPrincipal!,respuestas,estructura.noReasSup,'no_rea_sup');//con los parametros que necesitariamos para generalizar
         codNoReaSup=resnorea.nrcodigo;
         esNoReaSup=resnorea.esvalor;
@@ -134,48 +135,26 @@ var esRealizada = (respuestas:Respuestas)=>{
 var esRealizadaSup=(respuestas:Respuestas)=>{
     var esReaSup = false;
     var codReaSup:number|null= null;
-    if(!respuestas['confir_tel_sup' as IdVariable] && !respuestas['sp1a' as IdVariable]){
+    var vrea_sup = respuestas['rea_sup' as IdVariable];
+    var vrazon_sup = respuestas['razon_sup' as IdVariable];
+    var ventrevista_sup = respuestas['entrevista_sup' as IdVariable];
+
+    if(!vrea_sup && !vrazon_sup && !ventrevista_sup) {
         return {codReaSup, esReaSup}
-    }else if( respuestas['confir_tel_sup' as IdVariable]==2 || respuestas['confir_dom_sup' as IdVariable]==2||respuestas['sp1a' as IdVariable]==2 ||respuestas['sp1b' as IdVariable]==2||respuestas['sp1c' as IdVariable]==2){
+    }else if(vrea_sup==2 && !!vrazon_sup && !ventrevista_sup){
         codReaSup = 2;
-        esReaSup = false;
+        esReaSup = false; 
+    }else if(vrea_sup==1 && !vrazon_sup && !!ventrevista_sup){
+        codReaSup = 1;
+        esReaSup = true;
+    }else if((vrea_sup==1 || vrea_sup==2) &&!vrazon_sup && !ventrevista_sup){
+        codReaSup = 3;
+        esReaSup = false; 
     }else{
-        var reahs: number[]=[] ;
-        var respuestasHs = respuestas['hogares_sup'];
-        if(respuestasHs){
-            for(let respuestasH of respuestasHs){
-                var reah:number;
-                var selec:number;
-                if(respuestasH['entrea_sup' ] == 2||respuestasH['spr1_sup']==2||respuestasH['sp4']==3||respuestasH['total_rango_sup']==0){
-                    reah=2;
-                }else{
-                    if(respuestasH['entrea_sup' ]){
-                        reah = 1;
-                    }else {
-                        reah=3;
-                    }     
-                }
-                reahs.push(reah);
-            }
-            if (reahs.every(rh=>rh==1)){
-                codReaSup = 1;
-                esReaSup = true;
-            }else if(reahs.every(rh=>rh==2)){
-                codReaSup = 2;
-                esReaSup = false;
-            }else if(reahs.every(rh=>rh==1||rh==3)){
-                codReaSup = 3;
-                esReaSup = false;
-            }else{
-                codReaSup = 4;
-                esReaSup = false;
-            }
-        } else{
-            codReaSup = 3;
-            esReaSup = false;
-        }
+        codReaSup = 5;
+        esReaSup = false;
     }
-    return {codReaSup,esReaSup}
+   return {codReaSup,esReaSup}
 }
 
 setCalculoReaNoRea(esNoRea, esNoReaSup, esRealizada, esRealizadaSup);
