@@ -13,6 +13,9 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
         {name:'idblaise'      ,  typeName: 'text' },
         {name:'rea'      ,  typeName: 'integer' },
         {name:'norea'      ,  typeName: 'integer' },
+        {name:'rea_web'      ,  typeName: 'integer' },
+        {name:'rea_tel'      ,  typeName: 'integer' },
+        {name:'rea_pres'      ,  typeName: 'integer' },
         {name:'msnombrei'      ,  typeName: 'text' },
         {name:'tarea'      ,  typeName: 'text' },
         {name:'operacion'      ,  typeName: 'text' },
@@ -35,7 +38,7 @@ export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
             isTable:false,
             from:`(
                 SELECT tb.enc, tb.idblaise, t.rea, t.norea, t.cant_h, --t.recepcionista,
-                v.*,--operativo, v.vivienda, v.persona, v.nombre, v.edad, v.sexo, v.nacms, v.fin_1, v.fin_3, v.obs_faltantes,
+                v.*,
                 tt.verif_campo, tt.tarea, 
                 tt.etareas->tt.tarea->>'operacion' as operacion,
                 tt.etareas->'encu'->>'asignado' as encuestador,
