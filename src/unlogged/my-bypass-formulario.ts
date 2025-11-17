@@ -9,10 +9,13 @@ var esNoRea = (respuestas:Respuestas)=>{
     var uaPrincipal = likeAr(estructura.unidades_analisis).find((ua)=>!ua.padre);
     var esNoRea = false;
     var codNoRea:string|null= null;
-    estructura.noReas = estructura.noReas.sort((a,b)=>a.orden-b.orden);
-    let resnorea = buscarNoReaEnRespuestas( unidadesARecorrer,uaPrincipal!,respuestas,estructura.noReas,'no_rea');
-    codNoRea=resnorea.nrcodigo;
-    esNoRea=resnorea.esvalor;
+    var {codRea, esRea} = esRealizada(respuestas);
+    if ( !esRea) {
+        estructura.noReas = estructura.noReas.sort((a,b)=>a.orden-b.orden);
+        let resnorea = buscarNoReaEnRespuestas( unidadesARecorrer,uaPrincipal!,respuestas,estructura.noReas,'no_rea');
+        codNoRea=resnorea.nrcodigo;
+        esNoRea=resnorea.esvalor;
+    }    
     return {codNoRea, esNoRea};
 };
 var esNoReaSup = (respuestas:Respuestas)=>{
