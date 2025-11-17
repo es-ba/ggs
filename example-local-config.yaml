@@ -21,6 +21,7 @@ devel:
   useFileDevelopment: true
 client-setup:
   skin: ""
+  background-img: ""
   lang: es
   title: GGS2025
   operativo: ggs2025

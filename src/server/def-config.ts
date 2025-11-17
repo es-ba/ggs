@@ -83,7 +83,6 @@ client-setup:
   cursors: true
   lang: es
   menu: true
-  background-img: ../img/background-test.png
   deviceWidthForMobile: device-width
   user-scalable: no
 `
