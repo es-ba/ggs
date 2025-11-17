@@ -174,6 +174,18 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 {name:'orden' , typeName:'bigint' , editable: true },
             );
         })
+        be.appendToTableDefinition('tareas_tem_ingreso',function(tableDef:TableDefinition, _context?:TableContext){
+            tableDef.sql!.from = tableDef.sql!.from!.replace(
+                "'__implementar_en_operativo_final'",
+                `(select concat_ws( '; ',case when seleccionado_ant::jsonb->>'cel' is not null  then concat('cel:',seleccionado_ant::jsonb->>'cel') else null end
+                    , case when seleccionado_ant::jsonb->>'tel' is not null  then concat('tel:',seleccionado_ant::jsonb->>'tel') else null end
+                    , case when seleccionado_ant::jsonb->>'alternativo' is not null  then concat('otro:',seleccionado_ant::jsonb->>'alternativo') else null end
+                    )
+                    from tem tel
+                        where t.operativo = tel.operativo and t.enc=tel.enc
+	                )`
+            );
+        })        
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){
         //    tableDef.fields.splice(2,0,
         //        {name:'persona'     , typeName:'bigint'   , editable: false},
