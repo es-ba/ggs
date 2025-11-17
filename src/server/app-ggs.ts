@@ -1,7 +1,7 @@
 "use strict";
 
 import * as dmencu from "./types-ggs";
-import {Context, MenuInfoBase, Request, Response, OptsClientPage, TableDefinition } from "./types-ggs";
+import {Context, TableContext, Request, OptsClientPage, TableDefinition } from "./types-ggs";
 import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
 import {tem_blaise} from  "./table-tem_blaise";
