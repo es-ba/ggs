@@ -18,7 +18,7 @@ import { hogares_sup         } from './table-hogares_sup';
 import { personas_sup        } from './table-personas_sup';
 import { grilla_rea_sin_blaise } from './grilla_rea_sin_blaise';
 
-const APP_DM_VERSION="#25-11-17";
+const APP_DM_VERSION="#25-11-18";
 
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Base:T){
