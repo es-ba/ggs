@@ -39,48 +39,14 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "rea_tel", "typeName": "bigint", "nullable": true},
         {"name": "rea_pres", "typeName": "bigint", "nullable": true},
         {"name": "tel5", "typeName": "bigint", "nullable": true},
-        {"name": "4_esp", "typeName": "bigint", "nullable": true},
-
-        {"name": "soporte", "typeName": "bigint", "nullable": true},
-        {"name": "entreav", "typeName": "bigint", "visible": false, "nullable": true},
-        {"name": "identif", "typeName": "bigint", "nullable": true},
-        {"name": "habita", "typeName": "bigint", "nullable": true},
-        {"name": "construc", "typeName": "bigint", "nullable": true},
-        {"name": "razon_viv", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_2", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_6", "typeName": "bigint", "nullable": true},
-        {"name": "razon3", "typeName": "text", "nullable": true},
-        {"name": "resid_hog", "typeName": "bigint", "nullable": true},
-        {"name": "razon_hog", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_1", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_3", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_5", "typeName": "bigint", "nullable": true},
-        {"name": "razon_9v", "typeName": "bigint", "nullable": true},
-        {"name": "contacto", "typeName": "bigint", "nullable": true},
-        {"name": "v1", "typeName": "bigint", "nullable": true},
-        {"name": "total_h", "typeName": "bigint", "nullable": true},
-        {"name": "vdominio_sup", "typeName": "bigint", "visible": false, "nullable": true},
-        {"name": "s1a1_obs_sup", "typeName": "text", "nullable": true},
-        {"name": "datos_personal_sup", "typeName": "text", "nullable": true},
-        {"name": "datos_personal_enc", "typeName": "text", "nullable": true},
+        {"name": "ggs4_esp", "typeName": "bigint", "nullable": true},
+        {"name": "razon_999", "typeName": "bigint", "nullable": true},
+        {"name": "razon_97", "typeName": "bigint", "nullable": true},
+        {"name": "razon_98", "typeName": "bigint", "nullable": true},
+        {"name": "razon_99", "typeName": "bigint", "nullable": true},
+       
         {"name": "total_vis_sup", "typeName": "bigint", "nullable": true},
-        {"name": "soporte_sup", "typeName": "bigint", "nullable": true},
-        {"name": "modo_sup", "typeName": "bigint", "nullable": true},
-        {"name": "confir_tel_sup", "typeName": "bigint", "nullable": true},
-        {"name": "domicilio_sup", "typeName": "text", "nullable": true},
-        {"name": "confir_dom_sup", "typeName": "bigint", "nullable": true},
-        {"name": "sp1a", "typeName": "bigint", "nullable": true},
-        {"name": "habita_sup", "typeName": "bigint", "nullable": true},
-        {"name": "construccion_sup", "typeName": "bigint", "nullable": true},
-        {"name": "razon_viv_sup", "typeName": "bigint", "nullable": true},
-        {"name": "sp1b", "typeName": "bigint", "nullable": true},
-        {"name": "razon_hog_sup", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_3_sup", "typeName": "bigint", "nullable": true},
-        {"name": "razon2_5_sup", "typeName": "bigint", "nullable": true},
-        {"name": "razon_9v_sup", "typeName": "bigint", "nullable": true},
-        {"name": "sp1c", "typeName": "bigint", "nullable": true},
-        {"name": "sp3_sup", "typeName": "bigint", "nullable": true},
-        {"name": "total_h_sup", "typeName": "bigint", "nullable": true},
+        
         {"name": "consistido"    , "label":'consistido' , "typeName": 'timestamp'},
         
         //campos de RE_SUP
@@ -106,7 +72,6 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "coincide_sup", "typeName": "bigint", "nullable": true},
 
         //campos de personas que agregamos en viviendas provisoriamente para poder guardar
-        {"name": "msi",                "typeName": "bigint", "nullable": true},
         {"name": "msnombrei",          "typeName": "text",   "nullable": true},
         {"name": "msedadi",            "typeName": "bigint", "nullable": true},
         {"name": "id_blaise",          "typeName": "text",   "nullable": true},
@@ -116,7 +81,7 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "fin_3",              "typeName": "bigint", "nullable": true},
         {"name": "escif",              "typeName": "text",   "nullable": true},
         
-        {name: "obs_faltantes", typeName: "text"}
+        {"name": "obs_faltantes",      "typeName": "text"}
     ],
     "sql": {
         "isReferable": true
