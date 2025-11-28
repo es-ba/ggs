@@ -96,10 +96,11 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             personas_sup,
             grilla_rea_sin_blaise,
         }
+        // delete(this.getTableDefinition.personas);
+        // delete(this.getTableDefinition.personas_sup);
         // delete(this.getTableDefinition.hogares);
         // delete(this.getTableDefinition.hogares_sup);
         // delete(this.getTableDefinition.visitas);
-        // delete(this.getTableDefinition.visitas_sup);
         be.appendToTableDefinition('grilla_hoja_ruta',function(tableDef:TableDefinition, _context?:TableContext){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
                 !['seleccionado_ant','cita'].includes(element)
@@ -170,6 +171,11 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
         })
         be.appendToTableDefinition('no_rea',function(tableDef:TableDefinition){
+            tableDef.fields.push(
+                {name:'orden' , typeName:'bigint' , editable: true },
+            );
+        })
+        be.appendToTableDefinition('no_rea_sup',function(tableDef:TableDefinition){
             tableDef.fields.push(
                 {name:'orden' , typeName:'bigint' , editable: true },
             );

@@ -11,7 +11,7 @@ var esNoRea = (respuestas:Respuestas)=>{
     var codNoRea:string|null= null;
     var {codRea, esRea} = esRealizada(respuestas);
     if ( !esRea) {
-        estructura.noReas = estructura.noReas.sort((a,b)=>a.orden-b.orden);
+        estructura.noReas = estructura.noReas.sort((a,b)=><number>a.orden-<number>b.orden);
         let resnorea = buscarNoReaEnRespuestas( unidadesARecorrer,uaPrincipal!,respuestas,estructura.noReas,'no_rea');
         codNoRea=resnorea.nrcodigo;
         esNoRea=resnorea.esvalor;
@@ -25,7 +25,7 @@ var esNoReaSup = (respuestas:Respuestas)=>{
     var uaPrincipal = likeAr(estructura.unidades_analisis).find((ua)=>!ua.padre);
     var esNoReaSup = false;
     var codNoReaSup:string|null= null;
-    //estructura.noReasSup = estructura.noReasSup.sort((a,b)=>a.orden-b.orden);
+    estructura.noReasSup = estructura.noReasSup.sort((a,b)=><number>a.orden-<number>b.orden);
     let resnorea =buscarNoReaEnRespuestas( unidadesARecorrerSup,uaPrincipal!,respuestas,estructura.noReasSup,'no_rea_sup');//con los parametros que necesitariamos para generalizar
         codNoReaSup=resnorea.nrcodigo;
         esNoReaSup=resnorea.esvalor;
