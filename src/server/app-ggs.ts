@@ -71,12 +71,20 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
     }
     
     getMenuControles(context:Context){
-    
-        let menuControles = super.getMenuControles(context);
+        let menuControles = []//super.getMenuControles(context);
+        menuControles.push({menuType:'proc', name:'encuestas_procesamiento_pasar', label: 'pasar encuestas a procesamiento'})
+        menuControles.push({menuType:'table', name:'resumen', table:'control_resumen', selectedByDefault:true})
         menuControles.push({menuType:'table', name:'grilla_rea_sin_blaise', label:'rea sin blaise'})
         return menuControles;
-    
     }
+
+    getMenuVarios(context:Context){
+        let menuVarios = super.getMenuVarios(context);
+        menuVarios.menuContent.push({menuType:'table', name:'no_rea'        , label:'no rea'})
+        menuVarios.menuContent.push({menuType:'table', name:'no_rea_sup'    , label:'no rea sup'})
+        return menuVarios;
+    }
+
     prepareGetTables(){
         var be=this;
         super.prepareGetTables();
