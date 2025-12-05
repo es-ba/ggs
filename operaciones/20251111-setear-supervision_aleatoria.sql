@@ -18,9 +18,11 @@ declare
    v_grupo0           text;
    v_estado           text;
    v_dominio          integer;
-   v_con_telefono     text;
+   v_con_telefono     boolean;
    v_seleccionado_ant jsonb;
    v_new_aleat        integer;
+   v_rea_tel          bigint;
+   v_rea_pres         bigint;  
 begin
     select pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,estado,dominio,seleccionado_ant::jsonb
       into   v_pre_sorteo, v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio,v_seleccionado_ant
@@ -31,8 +33,11 @@ begin
      -- raise notice ' valores % % % % % % % ',v_pre_sorteo,v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio;   
     v_con_telefono=v_seleccionado_ant?'cel' or v_seleccionado_ant?'tel' or v_seleccionado_ant?'alternativo';
     v_new_aleat=null;
+    select rea_tel, rea_pres into v_rea_tel, v_rea_pres
+           from viviendas where operativo=new.operativo and vivienda= new.enc;
+
     if v_pre_sorteo in (1,2)  and v_sup_aleat is null and v_dominio=3 and v_estado='V' then
-        if (v_rea=1 and v_pre_sorteo=2 and v_con_telefono) then
+        if v_rea=1 and v_pre_sorteo=2 and v_con_telefono and (v_rea_tel=1 or v_rea_pres=1) then
             --v_pre_sorteo=2  
             v_new_aleat=2;
         end if; 
