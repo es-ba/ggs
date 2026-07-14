@@ -44,9 +44,9 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             { type: 'js', src: 'my-render-formulario.js' },
         ])
     }
-    createResourcesForCacheJson(){
+    async createResourcesForCacheJson(){
         var be = this;
-        var jsonResult = super.createResourcesForCacheJson();
+        var jsonResult = await super.createResourcesForCacheJson();
         jsonResult.version = APP_DM_VERSION;
         jsonResult.appName = 'ggs';
         jsonResult.cache=jsonResult.cache.concat([

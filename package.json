@@ -11,10 +11,14 @@
     "dist"
   ],
   "dependencies": {
-    "dmencu":"^2.0.30"
+    "dmencu":"^3.0.0"
   },
   "dependencias provisorias: las que se pongan en dependencias ponerlas acá y sacarlas juntas": {},
   "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.3.0",
+    "discrepances": "~0.2.8",
+    "pg-triggers": "~0.3.2",
     "mixin-patch": "~0.5.0",
     "types.d.ts": "~0.6.22",
     "typescript": "^5.9.2"
