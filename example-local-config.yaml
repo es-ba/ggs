@@ -1,21 +1,21 @@
 db:
-  database: ggs2025_db
-  user: ggs2025_admin
+  database: ggs2026_db
+  user: ggs2026_admin
   port: 5433
   password: PONER_PASSWORD
 install:
   dump:
     db:
-      owner: ggs2025_owner
+      owner: ggs2026_owner
   table-data-dir: 
-    - ../dmencu-data/ggs2025
+    - ../dmencu-data/ggs2026
     - ../dmencu-data/templates_app_final #no borrar, dejar último, chequea los tabs obligatorios al correr -- --dump-db
 login:
   plus:
     secret: PONERSECRET
     allowHttpLogin: true
     loginForm:
-      formTitle: GGS2025
+      formTitle: GGS2026
 devel:
   forceShowAsEditable: false
   useFileDevelopment: true
@@ -23,8 +23,8 @@ client-setup:
   skin: ""
   background-img: ""
   lang: es
-  title: GGS2025
-  operativo: ggs2025
+  title: GGS2026
+  operativo: ggs2026
 server:
   skins:
     confort:

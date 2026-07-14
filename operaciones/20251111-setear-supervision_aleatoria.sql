@@ -1,10 +1,10 @@
 --función trigger para setear el campo supervision aleatoria- primera versión.
 --poner el rol que corresponda según el entorno en cual estamos corriendo este script
-set role ggs2025_owner;
+set role ggs2026_owner;
 set search_path=base;
 
 ----PRUEBA SCRIPT TAREAS TEM
-----Solo va a haber supervisión aleatoria telefónica(2) para ggs2025 y para reas.
+----Solo va a haber supervisión aleatoria telefónica(2) para ggs2026 y para reas.
 CREATE OR REPLACE FUNCTION base.setear_sup_aleat_tareas_tem_trg()
     RETURNS trigger
     LANGUAGE 'plpgsql'
@@ -50,7 +50,7 @@ end;
 $BODY$;
 
 ALTER FUNCTION base.setear_sup_aleat_tareas_tem_trg()
-    OWNER TO ggs2025_owner;
+    OWNER TO ggs2026_owner;
 
 --el trigger tiene que estar antes que el de próxima tarea    
 -- DROP TRIGGER IF EXISTS csetear_sup_aleat_tareas_tem_trg ON base.tareas_tem;

@@ -1,18 +1,18 @@
 export const defConfig=`
 server:
   port: 3070
-  base-url: /ggs
+  base-url: /ggs2026
   session-store: memory
 db:
   user: ggs_admin
   motor: postgresql
   host: localhost
-  database: ggs_db
+  database: ggs2026_db
   schema: base
 install:
   dump:
     db:
-      owner: ggs_owner
+      owner: ggs2026_owner
       apply-generic-user-replaces: true
     admin-can-create-tables: true
     enances: inline
