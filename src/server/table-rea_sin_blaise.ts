@@ -3,7 +3,7 @@
 import { FieldDefinition, TableContext, TableDefinition } from "dmencu";
 import { viviendas } from "./table-viviendas";
 
-export function grilla_rea_sin_blaise(context:TableContext): TableDefinition {
+export function rea_sin_blaise(context:TableContext): TableDefinition {
     let def = viviendas(context);
     def.title= "Rea sin Blaise"
     def.allow= {import:false, delete:false, insert: false, deleteAll:false, select:true, export: true, update:true}

@@ -4,7 +4,7 @@ server:
   base-url: /ggs2026
   session-store: memory
 db:
-  user: ggs_admin
+  user: ggs2026_admin
   motor: postgresql
   host: localhost
   database: ggs2026_db
@@ -24,6 +24,7 @@ install:
       - ../node_modules/meta-enc/install/prepare.sql
       - ../node_modules/varcal/install/wrappers.sql
       - ../node_modules/operativos/install/sql2tabla_datos.sql
+      - schema-backups.sql
       post-adapt:
       - ../node_modules/pg-triggers/lib/recreate-his.sql
       - ../node_modules/pg-triggers/lib/table-changes.sql

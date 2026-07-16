@@ -1,7 +1,7 @@
 "use strict";
 
 import * as dmencu from "./types-ggs";
-import {Context, TableContext, Request, OptsClientPage, TableDefinition } from "./types-ggs";
+import {Context, TableContext, Request, OptsClientPage, TableDefinition, MenuInfoBase } from "./types-ggs";
 import {defConfig} from "./def-config"
 import {procedures} from "./procedures-ggs"
 import {tem_blaise} from  "./table-tem_blaise";
@@ -16,7 +16,10 @@ import { personas            } from './table-personas';
 import { visitas_sup         } from './table-visitas_sup';
 import { hogares_sup         } from './table-hogares_sup';
 import { personas_sup        } from './table-personas_sup';
-import { grilla_rea_sin_blaise } from './grilla_rea_sin_blaise';
+import { rea_sin_blaise      } from './table-rea_sin_blaise';
+import { backups             } from './table-backups';
+import { lotes               } from './table-lotes';
+import { match_id            } from './table-match_id';
 
 const APP_DM_VERSION="#25-11-28";
 
@@ -85,13 +88,30 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         return menuVarios;
     }
 
+    getMenu(context:Context){
+        if(context.be.config.server.policy == 'backups'){
+            let menu: MenuInfoBase[] = [];
+            menu.push({ menuType: "table", name: "lotes" });
+            menu.push({ menuType: "table", name: "backups" });
+            menu.push({ menuType: "table", name: "grilla_match_id", label: 'consistencias blaise'});
+            menu.push({ menuType: "menu", name: "config", label: "configurar",
+                menuContent: [ { menuType: "table", name: "usuarios" }, ],
+            });
+            return {menu}
+        }else{
+            return super.getMenu(context);
+        }
+    }
+
     prepareGetTables(){
         var be=this;
         super.prepareGetTables();
         this.getTableDefinition={
             ...this.getTableDefinition,
             tem_blaise,
-            
+            backups,
+            lotes,
+            match_id,
             viviendas,
             visitas,
             hogares,
@@ -102,7 +122,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             visitas_tel,
             visitas_pres,
             personas_sup,
-            grilla_rea_sin_blaise,
+            grilla_rea_sin_blaise: rea_sin_blaise,
         }
         // delete(this.getTableDefinition.personas);
         // delete(this.getTableDefinition.personas_sup);
