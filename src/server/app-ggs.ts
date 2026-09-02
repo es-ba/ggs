@@ -93,7 +93,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             let menu: MenuInfoBase[] = [];
             menu.push({ menuType: "table", name: "lotes" });
             menu.push({ menuType: "table", name: "backups" });
-            menu.push({ menuType: "table", name: "grilla_match_id", label: 'consistencias blaise'});
+            menu.push({ menuType: "table", name: "match_id", label: 'consistencias blaise'});
             menu.push({ menuType: "menu", name: "config", label: "configurar",
                 menuContent: [ { menuType: "table", name: "usuarios" }, ],
             });
