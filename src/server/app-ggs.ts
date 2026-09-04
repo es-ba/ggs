@@ -17,7 +17,7 @@ import { visitas_sup         } from './table-visitas_sup';
 import { hogares_sup         } from './table-hogares_sup';
 import { personas_sup        } from './table-personas_sup';
 import { rea_sin_blaise      } from './table-rea_sin_blaise';
-import { backups             } from './table-backups';
+import { backups, getProcesamientoFields             } from './table-backups';
 import { lotes               } from './table-lotes';
 import { match_id            } from './table-match_id';
 
@@ -140,42 +140,22 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
                 !['seleccionado_ant','cita','semana'].includes(element)
             );
-            tableDef.hiddenColumns?.push('cant_h','cant_p','seleccionado','orden_relevamiento','mapa','rotacion','enc_autogenerado_dm','enc_autogenerado_dm_capa','h4','x','y')
-       // console.log('camposhidden', tableDef.hiddenColumns )
-            tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
+            tableDef.hiddenColumns?.push('cant_h','cant_p','seleccionado','orden_relevamiento','mapa','rotacion','enc_autogenerado_dm','enc_autogenerado_dm_capa','h4','x','y');
             tableDef.fields.splice(26, 0, 
-                {name :'recep_blaise' , typeName: 'text', editable: true  },
+                {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
             );
-            tableDef.fields.splice(27, 0, 
-                {name :'proie_blaise' , typeName: 'text', editable: true  },
+            const procesamientoFields = getProcesamientoFields({editable:false, inTable:false});
+            tableDef.fields.splice(27,0,
+                ...procesamientoFields
             );
-            tableDef.fields.splice(28, 0, 
-                {name :'lote' , typeName: 'text', editable: true  },
-            );
-            tableDef.fields.splice(29, 0, 
-                {name :'grado_matching' , typeName: 'decimal', editable: true  },
-            );
-            tableDef.fields.splice(30, 0, 
-                {name :'observaciones_blaise' , typeName: 'text', editable: true  },
-            );
-            tableDef.fields.splice(31, 0, 
-                {name :'resultado_blaise' , typeName: 'text', editable: true  },
-            );
-            tableDef.sql!.from = tableDef.sql!.from!.replace(
-                'from tem t',
-                ',t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.resultado_blaise from tem t'
-            );
+            const sqlMatch = match_id().sql!.from;
+            tableDef.sql!.from = `(select aux.*, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
+            left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc)`;
         });
 
         be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
            // console.log('camposhidden', tableDef.hiddenColumns )
-            tableDef.fields.splice(26, 0, 
-                {name :'recep_blaise'        , typeName: 'text'   , editable: false, inTable: false },
-            );
-            tableDef.fields.splice(27, 0, 
-                {name :'proie_blaise'        , typeName: 'text'   , editable: false, inTable: false },
-            );
             tableDef.fields.splice(28, 0, 
                 {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
             );

@@ -1,6 +1,13 @@
 "use strict";
 
-import { TableDefinition } from "./types-ggs";
+import { FieldDefinition, TableDefinition } from "./types-ggs";
+
+export const getProcesamientoFields = (opts:{editable:boolean, inTable:boolean }): FieldDefinition[] => [
+	{ name: "verificado_procesamiento", title:'verif proc', typeName: "boolean", editable: opts.editable},
+	{ name: "observaciones"			  , title:'obs backup', typeName: "text"   , editable: opts.editable},
+	{ name: "resul_proc"		 	  					  , typeName: "integer", editable: opts.editable},
+	{ name: "web_proc"				  , title:'web_proc'  , typeName: "text"   , editable: opts.editable}
+]
 
 export function backups(): TableDefinition {
   var definition: TableDefinition = {
@@ -12,11 +19,7 @@ export function backups(): TableDefinition {
     allow: {import:true},
     fields: [
         //campo propios:
-        { name: "verificado_procesamiento", title:'verif proc', typeName: "boolean"},
-        { name: "observaciones", title:'obs backup', typeName: "text"},
-        { name: "resul_proc", typeName: "integer"},
-		{ name: "web_proc"	, title:'web_proc', typeName: "text"},
-        
+        ...getProcesamientoFields({editable:true, inTable:true}),        
         { name: "lote", typeName: "integer", editable: false},
         
         // //campos para codificacion - anulados para esta prueba de concepto
