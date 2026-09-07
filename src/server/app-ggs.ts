@@ -21,7 +21,7 @@ import { backups, getProcesamientoFields             } from './table-backups';
 import { lotes               } from './table-lotes';
 import { match_id            } from './table-match_id';
 
-const APP_DM_VERSION="#25-11-28";
+const APP_DM_VERSION="#26-09-07";
 
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Base:T){
