@@ -42,7 +42,6 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
 
     clientIncludes(req:Request, hideBEPlusInclusions:OptsClientPage){
         return super.clientIncludes(req, hideBEPlusInclusions).concat([
-            { type: 'js', src: 'client/ggs.js' },
             { type: 'js', src: 'my-bypass-formulario.js' },
             { type: 'js', src: 'my-render-formulario.js' },
         ])
@@ -86,6 +85,28 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         menuVarios.menuContent.push({menuType:'table', name:'no_rea'        , label:'no rea'})
         menuVarios.menuContent.push({menuType:'table', name:'no_rea_sup'    , label:'no rea sup'})
         return menuVarios;
+    }
+
+    getMenuConfigurar(context: Context): MenuInfoBase[] {
+        const menuConfigurar = super.getMenuConfigurar(context);
+        const menuMuestra = menuConfigurar.find(item => item.name === 'muestra');
+        if (menuMuestra && 'menuContent' in menuMuestra && Array.isArray(menuMuestra.menuContent)) {
+            const indexTem = menuMuestra.menuContent.findIndex(item => item.name === 'tem');
+            const nuevoItem: MenuInfoBase = {
+                menuType: 'table',
+                name: 'tem_blaise',
+                table: 'tem_blaise',
+                label: 'TEM Blaise'
+            };
+
+            if (indexTem !== -1) {
+                menuMuestra.menuContent.splice(indexTem + 1, 0, nuevoItem);
+            } else {
+                menuMuestra.menuContent.unshift(nuevoItem);
+            }
+        }
+
+        return menuConfigurar;
     }
 
     getMenu(context:Context){
@@ -155,23 +176,22 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
 
         be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
-           // console.log('camposhidden', tableDef.hiddenColumns )
+            // console.log('camposhidden', tableDef.hiddenColumns )
+            const procesamientoFields = getProcesamientoFields({editable:false, inTable:false});
+           
             tableDef.fields.splice(28, 0, 
                 {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
             );
             tableDef.fields.splice(29, 0, 
-                {name :'grado_matching'      , typeName: 'decimal', editable: false, inTable: false },
-            );
-            tableDef.fields.splice(30, 0, 
-                {name :'observaciones_blaise', typeName: 'text'   , editable: false, inTable: false },
-            );
-            tableDef.fields.push(
                 {name:'semana'               , typeName:'integer' , editable: false, inTable: false },
             );
-            tableDef.sql!.from = tableDef.sql!.from!.replace(
-                'select tt.tarea, t.operativo, t.enc, t.area',
-                'select tt.tarea, t.operativo, t.enc, t.area, t.recep_blaise, t.proie_blaise, t.lote, t.grado_matching, t.observaciones_blaise, t.semana, t.resultado_blaise '
+            tableDef.fields.splice(30,0,
+                ...procesamientoFields
             );
+            const sqlMatch = match_id().sql!.from;
+            tableDef.sql!.from = `(select aux.*, t.semana, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
+            left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc
+            join tem t on t.operativo=aux.operativo and t.enc=aux.enc)`;
         })
         be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition){
             tableDef.fields.push(
