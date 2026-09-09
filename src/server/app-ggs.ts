@@ -71,6 +71,17 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             "background_color": coloresEntornos[miSufijo]
         }
     }
+
+    getMenuAsignacion(context:Context){
+        let menuAsignacion = super.getMenuAsignacion(context);
+        menuAsignacion.menuContent = menuAsignacion.menuContent.filter((item) => !['ingresador'].includes(item.name))
+        return menuAsignacion;
+    }
+    getMenuRecepcion(context:Context){
+        let menuRecepcion = super.getMenuRecepcion(context);
+        menuRecepcion.menuContent = menuRecepcion.menuContent.filter((item) => !['ingresador'].includes(item.name))
+        return menuRecepcion;
+    }
     
     getMenuControles(context:Context){
         let menuControles = []//super.getMenuControles(context);
@@ -189,9 +200,12 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 ...procesamientoFields
             );
             const sqlMatch = match_id().sql!.from;
-            tableDef.sql!.from = `(select aux.*, t.semana, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
-            left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc
-            join tem t on t.operativo=aux.operativo and t.enc=aux.enc)`;
+            tableDef.sql!.from = `(
+                select aux.*, t.semana, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote 
+                    from (${tableDef.sql!.from}) aux 
+                        left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc
+                        join tem t on t.operativo=aux.operativo and t.enc=aux.enc
+            )`;
         })
         be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition){
             tableDef.fields.push(
@@ -211,15 +225,28 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         be.appendToTableDefinition('tareas_tem_ingreso',function(tableDef:TableDefinition, _context?:TableContext){
             tableDef.sql!.from = tableDef.sql!.from!.replace(
                 "'__implementar_en_operativo_final'",
-                `(select concat_ws( '; ',case when seleccionado_ant::jsonb->>'cel' is not null  then concat('cel:',seleccionado_ant::jsonb->>'cel') else null end
+                `(select nullif(concat_ws( '; ',case when seleccionado_ant::jsonb->>'cel' is not null  then concat('cel:',seleccionado_ant::jsonb->>'cel') else null end
                     , case when seleccionado_ant::jsonb->>'tel' is not null  then concat('tel:',seleccionado_ant::jsonb->>'tel') else null end
                     , case when seleccionado_ant::jsonb->>'alternativo' is not null  then concat('otro:',seleccionado_ant::jsonb->>'alternativo') else null end
-                    )
+                    ),'')
                     from tem tel
                         where t.operativo = tel.operativo and t.enc=tel.enc
 	                )`
             );
         })        
+
+        be.appendToTableDefinition('areas_asignacion_general', function (tableDef,context) {
+            let forExclude: string[] = [];
+            for(let t of ['ingr']){
+                for(let f of tableDef.tareasFields){
+                    forExclude.push(`${f.prefijo}_${t}`);
+                    forExclude.push(`${f.prefijo}_${t}_nombre`);
+                    forExclude.push(`${f.prefijo}_${t}_apellido`);
+                    forExclude.push(`${f.prefijo}_${t}_dispositivo`);
+                }
+            }
+            tableDef.fields = tableDef.fields.filter((fieldDef:dmencu.FieldDefinition)=>!forExclude.includes(fieldDef.name));
+        });
         //be.appendToTableDefinition('inconsistencias',function(tableDef:TableDefinition, context:Context){
         //    tableDef.fields.splice(2,0,
         //        {name:'persona'     , typeName:'bigint'   , editable: false},

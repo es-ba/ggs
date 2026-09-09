@@ -24,13 +24,14 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
         if(respuestasRaiz.rea_web == '1' || respuestasRaiz.rea_tel == '1' || respuestasRaiz.rea_pres == '1'){
             const datosByPassViv= getDatosByPass().informacionHdr[forPk.vivienda];
             var infoSeleccionadoyCita=datosByPassViv.tem.cita;
-            var posSeparador=infoSeleccionadoyCita.indexOf('//');
-            var infoSeleccionado= posSeparador==-1?infoSeleccionadoyCita: infoSeleccionadoyCita.slice(posSeparador + 2) ;
-            var infoSeleccionadoJson=JSON.parse(infoSeleccionado.replace(/""/g,'"'));
+            if(infoSeleccionadoyCita){
+                var posSeparador=infoSeleccionadoyCita.indexOf('//');
+                var infoSeleccionado= posSeparador==-1?infoSeleccionadoyCita: infoSeleccionadoyCita.slice(posSeparador + 2) ;
+                var infoSeleccionadoJson=JSON.parse(infoSeleccionado.replace(/""/g,'"'));
+                respuestas['msnombrei' as IdVariable] = infoSeleccionadoJson.nombre;
+                respuestas['msedadi'as IdVariable] = infoSeleccionadoJson.edad;
+            }
 
-            //respuestas['msi' as IdVariable] = respuestas['$p0' as IdVariable];
-            respuestas['msnombrei' as IdVariable] = infoSeleccionadoJson.nombre;
-            respuestas['msedadi'as IdVariable] = infoSeleccionadoJson.edad;
             let idBlaise = datosByPassViv.codigosBlaise[forPk.vivienda]?.idblaise;
             if(idBlaise){
                 respuestas['id_blaise' as IdVariable] = idBlaise;
@@ -42,15 +43,12 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
             }else{
                 //throw Error ("no hay id de blaise asignado para el hogar")
             }
-            respuestas['$B.F:I1' as IdVariable] = null;
             respuestas['total_i1' as idVariable] = 1;
         }else {
             respuestas['msnombrei' as IdVariable] = null;
             respuestas['id_blaise' as IdVariable] = null;
             respuestas['id_blaise_parseado' as IdVariable] = null;
-            respuestas['total_i1' as idVariable] = null;
-            //respuestas['$B.F:I1' as IdVariable] = 'ok'
-        
+            respuestas['total_i1' as idVariable] = 0;
         }
     }    
 })
