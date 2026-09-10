@@ -24,7 +24,7 @@ declare
    v_rea_tel          bigint;
    v_rea_pres         bigint;  
 begin
-    select pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,estado,dominio,seleccionado_ant::jsonb
+    select pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,estado,dominio,seleccionado_ant
       into   v_pre_sorteo, v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio,v_seleccionado_ant
       from base.tem t
         left join base.tareas_tem tt on t.enc=tt.enc and t.tarea_actual=tt.tarea

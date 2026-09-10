@@ -1,5 +1,6 @@
 import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, DatosHdrUaPpal } from "dmencu/dist/unlogged/unlogged/tipos";
 import {getDatosByPass, setCalcularVariablesEspecificasOperativo, respuestasForPk} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
+import {setOrdenPorDefectoAtributos} from "dmencu/dist/unlogged/unlogged/render-formulario";
 
 setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:ForPk)=>{
     //ajustar variables
@@ -27,9 +28,8 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
             if(infoSeleccionadoyCita){
                 var posSeparador=infoSeleccionadoyCita.indexOf('//');
                 var infoSeleccionado= posSeparador==-1?infoSeleccionadoyCita: infoSeleccionadoyCita.slice(posSeparador + 2) ;
-                var infoSeleccionadoJson=JSON.parse(infoSeleccionado.replace(/""/g,'"'));
+                var infoSeleccionadoJson=JSON.parse(infoSeleccionado);
                 respuestas['msnombrei' as IdVariable] = infoSeleccionadoJson.nombre;
-                respuestas['msedadi'as IdVariable] = infoSeleccionadoJson.edad;
             }
 
             let idBlaise = datosByPassViv.codigosBlaise[forPk.vivienda]?.idblaise;
@@ -52,3 +52,5 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
         }
     }    
 })
+
+setOrdenPorDefectoAtributos(['sel','nombre','sexo','email', 'telms', 'movil', 'email'])
