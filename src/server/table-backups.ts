@@ -2,12 +2,15 @@
 
 import { FieldDefinition, TableDefinition } from "./types-ggs";
 
-export const getProcesamientoFields = (opts:{editable:boolean, inTable:boolean }): FieldDefinition[] => [
-	{ name: "verificado_procesamiento", title:'verif proc', typeName: "boolean", editable: opts.editable},
-	{ name: "observaciones"			  , title:'obs backup', typeName: "text"   , editable: opts.editable},
+export const getProcesamientoFields = (opts:{editable:boolean, inTable:boolean }): FieldDefinition[] => ([
+	{ name: "verificado_procesamiento",  typeName: "boolean", editable: opts.editable},
+	{ name: "observaciones"			  ,  typeName: "text"   , editable: opts.editable},
 	{ name: "resul_proc"		 	  					  , typeName: "integer", editable: opts.editable},
-	{ name: "web_proc"				  , title:'web_proc'  , typeName: "text"   , editable: opts.editable}
-]
+	{ name: "web_proc"				  ,  typeName: "text"   , editable: opts.editable}
+] as FieldDefinition[]).map(f=>{
+    f.title=opts.inTable?f.title:(`bkp_blaise_${f.name}`).replace(/_/g, " ");
+    return f;
+}); 
 
 export function backups(): TableDefinition {
   var definition: TableDefinition = {
@@ -19,7 +22,6 @@ export function backups(): TableDefinition {
     allow: {import:true},
     fields: [
         //campo propios:
-        ...getProcesamientoFields({editable:true, inTable:true}),        
         { name: "lote", typeName: "integer", editable: false},
         
         // //campos para codificacion - anulados para esta prueba de concepto
@@ -33,10 +35,11 @@ export function backups(): TableDefinition {
         // { name: "ciuo_ocup_anterior", typeName: "integer"},
         // { name: "cno_ocup_pareja",  typeName: "integer"},
         // { name: "ciuo_ocup_pareja", typeName: "integer"},
-
+		
         //campos fuentes externas:
         // campos agregados de backups
         { name: "respid", typeName: 'text', editable:false},
+        ...getProcesamientoFields({editable:true, inTable:true}),        
 		//decision Silvana 10/11
 		// columnas solo bkp INT
 		{ name:"interviewer_id"          , typeName: "text", editable: false },
