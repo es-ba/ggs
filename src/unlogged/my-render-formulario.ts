@@ -1,6 +1,19 @@
-import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, DatosHdrUaPpal } from "dmencu/dist/unlogged/unlogged/tipos";
+import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, TEM as TEMBase} from "dmencu/dist/unlogged/unlogged/tipos";
 import {getDatosByPass, setCalcularVariablesEspecificasOperativo, respuestasForPk} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
 import {setOrdenPorDefectoAtributos} from "dmencu/dist/unlogged/unlogged/render-formulario";
+
+
+export type TEM = TEMBase & {
+    seleccionado_ant: null | {
+        sel:number,
+        edad:number,
+        sexo:number,
+        email:string,
+        movil:string,
+        telms:string,
+        nombre:string,
+    };
+};
 
 setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:ForPk)=>{
     //ajustar variables
@@ -24,12 +37,9 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
         let {respuestas} = respuestasForPk(forPk);
         if(respuestasRaiz.rea_web == '1' || respuestasRaiz.rea_tel == '1' || respuestasRaiz.rea_pres == '1'){
             const datosByPassViv= getDatosByPass().informacionHdr[forPk.vivienda];
-            var infoSeleccionadoyCita=datosByPassViv.tem.cita;
-            if(infoSeleccionadoyCita){
-                var posSeparador=infoSeleccionadoyCita.indexOf('//');
-                var infoSeleccionado= posSeparador==-1?infoSeleccionadoyCita: infoSeleccionadoyCita.slice(posSeparador + 2) ;
-                var infoSeleccionadoJson=JSON.parse(infoSeleccionado);
-                respuestas['msnombrei' as IdVariable] = infoSeleccionadoJson.nombre;
+            var seleccionadoAnt=(datosByPassViv.tem as TEM).seleccionado_ant;
+            if(seleccionadoAnt){
+                respuestas['msnombrei' as IdVariable] = seleccionadoAnt.nombre;
             }
 
             let idBlaise = datosByPassViv.codigosBlaise[forPk.vivienda]?.idblaise;

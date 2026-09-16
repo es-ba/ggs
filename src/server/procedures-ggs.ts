@@ -22,7 +22,8 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                 'casa'          , casa          ,
                 'prioridad'     , reserva+1     ,
                 'observaciones' , tt.carga_observaciones ,
-                'cita'          , nullif (concat_ws('//', cita, seleccionado_ant::text),'') ,
+                'cita'          , nullif (concat_ws('//', cita, seleccionado_ant::text),'') , --se usa en la hdr del DM
+                'seleccionado_ant', seleccionado_ant,
                 'carga'         , t.area
             ) as tem, t.area,
             jsonb_build_object(
@@ -38,7 +39,7 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
             min(fecha_asignacion) as fecha_asignacion
             from tem t left join tareas_tem tt using (operativo, enc) left join tareas using (tarea)
             where ${quotedCondViv}
-            group by t.operativo, t.enc, t.json_encuesta, t.resumen_estado, dominio, nomcalle,sector,edificio, entrada, nrocatastral, piso,departamento,habitacion,casa,reserva,tt.carga_observaciones, cita, t.area, tarea, fecha_asignacion, asignado, main_form
+            group by t.operativo, t.enc, t.json_encuesta, t.resumen_estado, dominio, nomcalle,sector,edificio, entrada, nrocatastral, piso,departamento,habitacion,casa,reserva,tt.carga_observaciones, cita, seleccionado_ant, t.area, tarea, fecha_asignacion, asignado, main_form
         )
         select jsonb_build_object(
                 ${context.be.db.quoteLiteral(unidadAnalisisPrincipal)}, ${jsono(
