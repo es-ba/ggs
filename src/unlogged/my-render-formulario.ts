@@ -13,6 +13,7 @@ export type TEM = TEMBase & {
         telms:string,
         nombre:string,
     };
+    idblaise: string | null;
 };
 
 setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:ForPk)=>{
@@ -37,15 +38,16 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
         let {respuestas} = respuestasForPk(forPk);
         if(respuestasRaiz.rea_web == '1' || respuestasRaiz.rea_tel == '1' || respuestasRaiz.rea_pres == '1'){
             const datosByPassViv= getDatosByPass().informacionHdr[forPk.vivienda];
-            var seleccionadoAnt=(datosByPassViv.tem as TEM).seleccionado_ant;
+            const datosTEM = datosByPassViv.tem as TEM;
+            var seleccionadoAnt=datosTEM.seleccionado_ant;
             if(seleccionadoAnt){
                 respuestas['msnombrei' as IdVariable] = seleccionadoAnt.nombre;
             }
 
-            let idBlaise = datosByPassViv.codigosBlaise[forPk.vivienda]?.idblaise;
+            let idBlaise = datosTEM.idblaise;
             if(idBlaise){
                 respuestas['id_blaise' as IdVariable] = idBlaise;
-                let idParseado = idBlaise.toString().split('');
+                let idParseado = idBlaise.split('');
                 idParseado.splice(6,0,"-");
                 idParseado.splice(3,0,"-");
                 idParseado = idParseado.join('');

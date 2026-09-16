@@ -8,7 +8,7 @@ import { IdUnidadAnalisis } from "dmencu/dist/server/unlogged/tipos";
 setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrincipal:IdUnidadAnalisis)=>{
     return `
     with ${context.be.db.quoteIdent(unidadAnalisisPrincipal)} as 
-        (select enc, t.json_encuesta as respuestas, t.resumen_estado as "resumenEstado", 
+        (select t.enc, t.json_encuesta as respuestas, t.resumen_estado as "resumenEstado", 
             jsonb_build_object(
                 'dominio'       , dominio       ,
                 'nomcalle'      , nomcalle      ,
@@ -24,7 +24,8 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                 'observaciones' , tt.carga_observaciones ,
                 'cita'          , nullif (concat_ws('//', cita, seleccionado_ant::text),'') , --se usa en la hdr del DM
                 'seleccionado_ant', seleccionado_ant,
-                'carga'         , t.area
+                'carga'         , t.area,
+                'idblaise'      , tb.idblaise
             ) as tem, t.area,
             jsonb_build_object(
                 'tarea', tarea,
@@ -32,14 +33,13 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                 'asignado', asignado,
                 'main_form', main_form
             ) as tarea,
-            ${jsono(
-                `select enc, idblaise from tem_blaise where operativo = t.operativo and enc = t.enc`,
-                'enc'
-            )} as "codigos_blaise",
             min(fecha_asignacion) as fecha_asignacion
-            from tem t left join tareas_tem tt using (operativo, enc) left join tareas using (tarea)
+            from tem t 
+                left join tareas_tem tt using (operativo, enc) 
+                left join tareas using (tarea) 
+                LEFT JOIN tem_blaise tb ON tb.operativo = t.operativo AND tb.enc = t.enc
             where ${quotedCondViv}
-            group by t.operativo, t.enc, t.json_encuesta, t.resumen_estado, dominio, nomcalle,sector,edificio, entrada, nrocatastral, piso,departamento,habitacion,casa,reserva,tt.carga_observaciones, cita, seleccionado_ant, t.area, tarea, fecha_asignacion, asignado, main_form
+            group by t.operativo, t.enc, t.json_encuesta, t.resumen_estado, dominio, nomcalle,sector,edificio, entrada, nrocatastral, piso,departamento,habitacion,casa,reserva,tt.carga_observaciones, cita, seleccionado_ant, idblaise, t.area, tarea, fecha_asignacion, asignado, main_form
         )
         select jsonb_build_object(
                 ${context.be.db.quoteLiteral(unidadAnalisisPrincipal)}, ${jsono(
@@ -54,7 +54,7 @@ setHdrQuery((quotedCondViv:string, context:ProcedureContext, unidadAnalisisPrinc
                     group by area, observaciones_hdr`, 
                 'fecha')} as cargas,
             ${jsono(
-                `select enc, jsonb_build_object('tem', tem, 'tarea', tarea, 'codigosBlaise', codigos_blaise) as otras from ${context.be.db.quoteIdent(unidadAnalisisPrincipal)}`,
+                `select enc, jsonb_build_object('tem', tem, 'tarea', tarea) as otras from ${context.be.db.quoteIdent(unidadAnalisisPrincipal)}`,
                     'enc',
                     `otras ||'{}'::jsonb`
                 )}
