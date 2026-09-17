@@ -173,6 +173,9 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 !['seleccionado_ant','cita','semana'].includes(element)
             );
             tableDef.hiddenColumns?.push('cant_h','cant_p','seleccionado','orden_relevamiento','mapa','rotacion','enc_autogenerado_dm','enc_autogenerado_dm_capa','h4','x','y');
+            tableDef.fields.splice(2, 0, 
+                {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
+            );
             tableDef.fields.splice(26, 0, 
                 {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
             );
@@ -181,15 +184,18 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 ...procesamientoFields
             );
             const sqlMatch = match_id().sql!.from;
-            tableDef.sql!.from = `(select aux.*, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
-            left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc)`;
+            tableDef.sql!.from = `(select tb.idblaise, aux.*, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
+            left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc
+            left join tem_blaise tb on tb.operativo=aux.operativo and tb.enc=aux.enc)`;
         });
 
         be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => element !='semana');
             // console.log('camposhidden', tableDef.hiddenColumns )
             const procesamientoFields = getProcesamientoFields({editable:false, inTable:false});
-           
+           tableDef.fields.splice(2, 0, 
+                {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
+            );
             tableDef.fields.splice(28, 0, 
                 {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
             );
@@ -201,10 +207,12 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
             const sqlMatch = match_id().sql!.from;
             tableDef.sql!.from = `(
-                select aux.*, t.semana, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote 
+                select tb.idblaise, aux.*, t.semana, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote 
                     from (${tableDef.sql!.from}) aux 
                         left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc
                         join tem t on t.operativo=aux.operativo and t.enc=aux.enc
+                        left join tem_blaise tb on tb.operativo=aux.operativo and tb.enc=aux.enc
+
             )`;
         })
         be.appendToTableDefinition('usuarios',function(tableDef:TableDefinition){
