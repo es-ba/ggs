@@ -165,8 +165,15 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
                 !['seleccionado_ant','cita'].includes(element)
             );
+            tableDef.fields.splice(2, 0, 
+                {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
+            );
            // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
+            tableDef.sql!.from = `(select tb.idblaise, aux.*
+                from (${tableDef.sql!.from}) aux 
+                left join tem_blaise tb on tb.operativo=aux.operativo and tb.enc=aux.enc
+            )`;
         });
         be.appendToTableDefinition('tem',function(tableDef:TableDefinition, _context?:dmencu.TableContext){
             tableDef.hiddenColumns=tableDef.hiddenColumns?.filter(element => 
