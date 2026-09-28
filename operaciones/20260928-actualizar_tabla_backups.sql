@@ -1,4 +1,4 @@
-set search_path base;
+set search_path = base;
 set role ggs2026_owner; --Atencion cambiar owner de acuerdo al entorno
 
 alter table backups 
