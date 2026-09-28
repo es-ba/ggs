@@ -1,6 +1,6 @@
 "use strict";
 
-import { FieldDefinition, TableDefinition } from "./types-ggs";
+import { FieldDefinition, TableContext, TableDefinition } from "./types-ggs";
 
 export const getProcesamientoFields = (opts:{editable:boolean, inTable:boolean }): FieldDefinition[] => ([
 	{ name: "verificado_procesamiento",  typeName: "boolean", editable: opts.editable},
@@ -12,7 +12,7 @@ export const getProcesamientoFields = (opts:{editable:boolean, inTable:boolean }
     return f;
 }); 
 
-export function backups(): TableDefinition {
+export function backups(_context:TableContext): TableDefinition {
   var definition: TableDefinition = {
     name: "backups",
     elementName: "backup",
