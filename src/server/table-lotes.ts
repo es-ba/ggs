@@ -9,7 +9,7 @@ export function lotes(): TableDefinition {
     editable: true,
     fields: [
       { name: "lote", nullable:true, editable: false, typeName: "integer", sequence: { name: "lote_seq", firstValue:1 }},  
-      { name: "recepcion", typeName: "date", specialDefaultValue: "current_date"},
+      { name: "recepcion", typeName: "date", defaultDbValue: "current_date"},
       { name: "observaciones", typeName: "text", label:'obs lote', isName: true },
       { name: "procesamiento", typeName: "text" },
       { name: "cant"         , typeName: "bigint", inTable: false, editable: false },
