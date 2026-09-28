@@ -12,7 +12,7 @@ export function lotes(): TableDefinition {
       { name: "recepcion", typeName: "date", specialDefaultValue: "current_date"},
       { name: "observaciones", typeName: "text", label:'obs lote', isName: true },
       { name: "procesamiento", typeName: "text" },
-      { name: "cant", typeName: "bigint", inTable: false, editable: false },
+      { name: "cant"         , typeName: "bigint", inTable: false, editable: false },
     ],
     primaryKey: ["lote"],
     detailTables: [
