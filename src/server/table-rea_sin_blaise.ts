@@ -63,7 +63,7 @@ export function rea_sin_blaise(context:TableContext): TableDefinition {
                       WHERE tt.operativo = tb.operativo AND tt.enc=tb.enc 
                          AND tt.asignado is not null AND tt.operacion is not null
                 ) as tt ON true
-                LEFT JOIN backups.backups b ON (tb.idblaise = b.respid)
+                LEFT JOIN base.backups b ON (tb.idblaise = b.respid)
                 WHERE (t.rea=1 OR t.rea=4) 
                 AND b.respid is null)`,
             insertIfNotUpdate:false
