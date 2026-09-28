@@ -8,7 +8,7 @@ export function lotes(): TableDefinition {
     elementName: "lote",
     editable: true,
     fields: [
-      { name: "lote", typeName: "integer", specialDefaultValue: "next_number" },
+      { name: "lote", nullable:true, editable: false, typeName: "integer", sequence: { name: "lote_seq", firstValue:1 }},  
       { name: "recepcion", typeName: "date", specialDefaultValue: "current_date"},
       { name: "observaciones", typeName: "text", label:'obs lote', isName: true },
       { name: "procesamiento", typeName: "text" },
