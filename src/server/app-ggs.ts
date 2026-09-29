@@ -167,6 +167,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
             tableDef.fields.splice(2, 0, 
                 {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
+                {name :'sensibilizado'           , typeName: 'boolean', editable: true,  table:"tem", inTable: false },
             );
            // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
@@ -188,12 +189,14 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
             const procesamientoFields = getProcesamientoFields({editable:false, inTable:false});
             tableDef.fields.splice(27,0,
+                {name :'sensibilizado'               , typeName:'boolean' , editable: false },
                 ...procesamientoFields
             );
             const sqlMatch = match_id().sql!.from;
-            tableDef.sql!.from = `(select tb.idblaise, aux.*, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
+            tableDef.sql!.from = `(select tb.idblaise, aux.*, auxt.sensibilizado, ${procesamientoFields.map(f => `match.${f.name}`).join(', ')},match.lote from (${tableDef.sql!.from}) aux 
             left join ${sqlMatch} match on match.operativo=aux.operativo and match.enc=aux.enc
-            left join tem_blaise tb on tb.operativo=aux.operativo and tb.enc=aux.enc)`;
+            left join tem_blaise tb on tb.operativo=aux.operativo and tb.enc=aux.enc
+            join tem auxt on auxt.operativo=aux.operativo and auxt.enc=aux.enc )`;
         });
 
         be.appendToTableDefinition('tareas_tem',function(tableDef:TableDefinition){
