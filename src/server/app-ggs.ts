@@ -21,7 +21,7 @@ import { backups, getProcesamientoFields             } from './table-backups';
 import { lotes               } from './table-lotes';
 import { match_id            } from './table-match_id';
 
-const APP_DM_VERSION="#26-09-10";
+const APP_DM_VERSION="#26-09-30";
 
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Base:T){
@@ -169,7 +169,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
                 {name :'sensibilizado'           , typeName: 'boolean', editable: true,  table:"tem", inTable: false },
             );
-           // console.log('camposhidden', tableDef.hiddenColumns )
+            // console.log('camposhidden', tableDef.hiddenColumns )
             tableDef.fields.find((field)=>field.name=='semana')!.visible=true;
             tableDef.sql!.from = `(select tb.idblaise, aux.*
                 from (${tableDef.sql!.from}) aux 
