@@ -185,7 +185,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
             );
             tableDef.fields.splice(26, 0, 
-                {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
+                {name :'lote'                , typeName: 'integer'   , editable: false, inTable: false },
             );
             const procesamientoFields = getProcesamientoFields({editable:false, inTable:false});
             tableDef.fields.splice(27,0,
@@ -207,7 +207,7 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 {name :'idblaise'                , typeName: 'text'   , editable: false, inTable: false },
             );
             tableDef.fields.splice(28, 0, 
-                {name :'lote'                , typeName: 'text'   , editable: false, inTable: false },
+                {name :'lote'                , typeName: 'integer'   , editable: false, inTable: false },
             );
             tableDef.fields.splice(29, 0, 
                 {name:'semana'               , typeName:'integer' , editable: false, inTable: false },
