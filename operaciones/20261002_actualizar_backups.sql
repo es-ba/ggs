@@ -1,5 +1,5 @@
 set search_path=base;
-
+set role ggs2026_owner; -- adecuar al entorno
 
 alter table backups rename column b13wrk17 to b13wrk17_3601; 
 alter table backups rename column b13wrk28 to b13wrk28_3601;
