@@ -22,29 +22,42 @@ declare
    v_seleccionado_ant jsonb;
    v_new_aleat        integer;
    v_rea_tel          bigint;
-   v_rea_pres         bigint;  
+   v_rea_pres         bigint;
+   v_tarea_actual     text;
+   v_cant_sup_aleat   integer;
+   v_cant_efectivas   integer; 
+   v_fijo             text; 
 begin
-    select pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,estado,dominio,seleccionado_ant
-      into   v_pre_sorteo, v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio,v_seleccionado_ant
+    select pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,estado,dominio,seleccionado_ant, t.tarea_actual
+      into   v_pre_sorteo, v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio,v_seleccionado_ant, v_tarea_actual
       from base.tem t
         left join base.tareas_tem tt on t.enc=tt.enc and t.tarea_actual=tt.tarea
         left join base.no_rea on t.norea::text=no_rea
       where t.operativo=new.operativo and t.enc=new.enc ;
-     -- raise notice ' valores % % % % % % % ',v_pre_sorteo,v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio;   
-    v_con_telefono=v_seleccionado_ant?'cel' or v_seleccionado_ant?'tel' or v_seleccionado_ant?'alternativo';
+     -- raise notice ' valores % % % % % % % %',v_pre_sorteo,v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio, v_tarea_actual;   
     v_new_aleat=null;
-    select rea_tel, rea_pres into v_rea_tel, v_rea_pres
+    select rea_tel, rea_pres, fijo into v_rea_tel, v_rea_pres, v_fijo
            from viviendas where operativo=new.operativo and vivienda= new.enc;
+    v_con_telefono=concat(v_seleccionado_ant->>'telms',v_seleccionado_ant->>'movil')~'\d{3}' ;
 
-    if v_pre_sorteo in (1,2)  and v_sup_aleat is null and v_dominio=3 and v_estado='V' then
+    if v_pre_sorteo in (1,2)  and v_sup_aleat is null and v_estado='V' and v_tarea_actual in ('encu','recu') then
         if v_rea=1 and v_pre_sorteo=2 and v_con_telefono and (v_rea_tel=1 or v_rea_pres=1) then
-            --v_pre_sorteo=2  
-            v_new_aleat=2;
+           --control de 10% efectivo a supervisar
+            SELECT COUNT(*)  INTO v_cant_sup_aleat 
+              FROM tem 
+              WHERE supervision_aleatoria is not null;
+            SELECT count(*) into v_cant_fectivas
+              FROM tem join viviendas on vivienda=enc 
+              WHERE rea=1 and (rea_pres=1 or rea_tel=1);
+            IF v_cant_efectivas>0 and (v_cant_sup_aleat + 1)*1.0/v_cant_efectivas*100 <= 10 then 
+
+                update base.tem
+                    set supervision_aleatoria=v_pre_sorteo
+                    where operativo=new.operativo and enc=new.enc ;
+
+            END IF;
         end if; 
     end if;
-    update base.tem
-        set supervision_aleatoria=v_new_aleat 
-        where operativo=new.operativo and enc=new.enc ;
     return new;
 end;    
 $BODY$;
