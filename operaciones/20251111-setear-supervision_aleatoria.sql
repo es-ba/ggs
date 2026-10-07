@@ -11,16 +11,15 @@ CREATE OR REPLACE FUNCTION base.setear_sup_aleat_tareas_tem_trg()
 AS $BODY$
 
 declare
-   v_pre_sorteo integer;
+   v_estado           text;
+   v_pre_sorteo       integer;
    v_sup_aleat        integer;
    v_rea              integer;
    v_norea            text;
    v_grupo0           text;
-   v_estado           text;
    v_dominio          integer;
    v_con_telefono     boolean;
    v_seleccionado_ant jsonb;
-   v_new_aleat        integer;
    v_rea_tel          bigint;
    v_rea_pres         bigint;
    v_tarea_actual     text;
@@ -28,49 +27,52 @@ declare
    v_cant_efectivas   integer; 
    v_fijo             text; 
 begin
-    select pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,estado,dominio,seleccionado_ant, t.tarea_actual
-      into   v_pre_sorteo, v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio,v_seleccionado_ant, v_tarea_actual
-      from base.tem t
-        left join base.tareas_tem tt on t.enc=tt.enc and t.tarea_actual=tt.tarea
-        left join base.no_rea on t.norea::text=no_rea
-      where t.operativo=new.operativo and t.enc=new.enc ;
-     -- raise notice ' valores % % % % % % % %',v_pre_sorteo,v_sup_aleat, v_rea, v_norea, v_grupo0, v_estado, v_dominio, v_tarea_actual;   
-    v_new_aleat=null;
-    select rea_tel, rea_pres, fijo into v_rea_tel, v_rea_pres, v_fijo
-           from viviendas where operativo=new.operativo and vivienda= new.enc;
-    v_con_telefono=concat(v_seleccionado_ant->>'telms',v_seleccionado_ant->>'movil')~'\d{3}' ;
+    v_estado=new.estado;
+    SELECT pre_sorteo, supervision_aleatoria, t.rea, t.norea, grupo0,dominio,seleccionado_ant, t.tarea_actual
+        INTO   v_pre_sorteo, v_sup_aleat, v_rea, v_norea, v_grupo0, v_dominio,v_seleccionado_ant, v_tarea_actual
+        FROM base.tem t LEFT JOIN base.no_rea n ON t.operativo=n.operativo AND t.norea::text=n.no_rea
+        WHERE t.operativo=new.operativo AND t.enc=new.enc ;
+    RAISE NOTICE ' valores sort % ,aleat % ,rea % ,norea % , estad % ,domi % , tactual % ',v_pre_sorteo,v_sup_aleat, v_rea, v_norea, v_estado, v_dominio, v_tarea_actual;   
 
-    if v_pre_sorteo in (1,2)  and v_sup_aleat is null and v_estado='V' and v_tarea_actual in ('encu','recu') then
-        if v_rea=1 and v_pre_sorteo=2 and v_con_telefono and (v_rea_tel=1 or v_rea_pres=1) then
-           --control de 10% efectivo a supervisar
-            SELECT COUNT(*)  INTO v_cant_sup_aleat 
-              FROM tem 
-              WHERE supervision_aleatoria is not null;
-            SELECT count(*) into v_cant_fectivas
-              FROM tem join viviendas on vivienda=enc 
-              WHERE rea=1 and (rea_pres=1 or rea_tel=1);
-            IF v_cant_efectivas>0 and (v_cant_sup_aleat + 1)*1.0/v_cant_efectivas*100 <= 10 then 
+    SELECT rea_tel, rea_pres, fijo 
+        INTO v_rea_tel, v_rea_pres, v_fijo
+        FROM viviendas 
+        WHERE operativo=new.operativo AND vivienda= new.enc;
+    v_con_telefono=concat_ws('|',v_seleccionado_ant->>'telms',v_seleccionado_ant->>'movil',v_fijo)~'\d{3}' ;
+    RAISE NOTICE 'tel% , reat%, reap% ', v_rea_tel, v_rea_pres, v_fijo;
 
-                update base.tem
-                    set supervision_aleatoria=v_pre_sorteo
-                    where operativo=new.operativo and enc=new.enc ;
+    --revisar condiciones si se agrega supervision presencial
+    IF v_pre_sorteo =2 AND v_sup_aleat IS NULL 
+        AND v_rea=1 AND v_con_telefono
+        AND v_estado='P' AND v_tarea_actual in ('encu','recu') 
+        AND (v_rea_tel=1 OR v_rea_pres=1) THEN
+        --control de 10% efectivo a supervisar 
+        -- de acuerdo con la IA por el tamaño de la muestra podemos poner aqui el control
+        -- si empeora la performance, se puede pasar esto a un proceso semanal y necesitaria una marca mas relacionada con este proceso
+        SELECT COUNT(*)  INTO v_cant_sup_aleat 
+            FROM tem 
+            WHERE supervision_aleatoria IS NOT NULL;
+        SELECT count(*) INTO v_cant_efectivas
+            FROM tem join viviendas on vivienda=enc 
+            WHERE rea=1 AND (rea_pres=1 or rea_tel=1);
+        RAISE NOTICE 'n_supalea %, n_efect %', v_cant_sup_aleat, v_cant_efectivas;  
+        IF v_cant_efectivas >0 AND (v_cant_sup_aleat + 1)*1.0/v_cant_efectivas * 100 <= 10 THEN
+            UPDATE base.tem
+                SET supervision_aleatoria=v_pre_sorteo
+                WHERE operativo=new.operativo AND enc=new.enc ;
 
-            END IF;
-        end if; 
-    end if;
-    return new;
+        END IF;
+    END IF;
+    RETURN new;
 end;    
 $BODY$;
 
-ALTER FUNCTION base.setear_sup_aleat_tareas_tem_trg()
-    OWNER TO ggs2026_owner;
-
 --el trigger tiene que estar antes que el de próxima tarea    
 -- DROP TRIGGER IF EXISTS csetear_sup_aleat_tareas_tem_trg ON base.tareas_tem;
-
 CREATE TRIGGER csetear_sup_aleat_tareas_tem_trg     
     AFTER UPDATE OF verificado
     ON base.tareas_tem
     FOR EACH ROW
+        WHEN (NEW.verificado = '1' AND OLD.verificado IS DISTINCT FROM NEW.verificado
+            AND NEW.estado='P' AND NEW.tarea in ('encu','recu') )  
     EXECUTE FUNCTION base.setear_sup_aleat_tareas_tem_trg();
-    
