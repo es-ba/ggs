@@ -19,16 +19,13 @@ export function match_id(): TableDefinition {
         {name:'norea'      ,  typeName: 'integer',  editable: false },
         //{name:'resumen_estado' , typeName:'text',  editable:false},
         //{name:'resultado'       , typeName: 'text'    ,  editable: false },
-
+        //campos de viviendas
         {name:'rea_web'         , typeName: 'integer',  editable: false },
         {name:'rea_tel'         , typeName: 'integer',  editable: false },
         {name:'rea_pres'        , typeName: 'integer',  editable: false },
-
+        // fin campos viviendas    
         {name:'result_sup'      , typeName: 'integer' ,  editable: false },
 
-        //campos base.personas intercalados con campos espejo de backups (dem01,asex,dobm,doby)
-        //podriamos agregar una variable construida con la comparacion de estos campos como en la grilla del censo
-        //{name:'msnombrei'    ,  typeName: 'text'   ,  editable: false },
         //campos base.tareas_tem
         {name:'verif_campo'     ,  typeName: 'text' ,  editable: false },
     ]
@@ -37,10 +34,10 @@ export function match_id(): TableDefinition {
     // se pide ver todos los campos del backup con este orden
     const camposOrden=['respid'
         ,'lote'
-	    ,'verificado_procesamiento'
-	    ,'observaciones'
-	    ,'resul_proc'
-	    ,'web_proc'
+        ,'verificado_procesamiento'
+        ,'observaciones'
+        ,'resul_proc'
+        ,'web_proc'
 
         ,'begindate'
         ,'begintime'
@@ -57,7 +54,7 @@ export function match_id(): TableDefinition {
         ,'b1dem01'
         ,'b1dem02_y'
         ,'b1dem202_m'
-        //,'b2dem17'
+        ,'b2dem17'
         ,'b2dem09'
         ,'b2dem11'
         ,'b2dem21_3601'
@@ -66,19 +63,19 @@ export function match_id(): TableDefinition {
         ,'nstepkids'
         ,'nadoptkids'
         ,'nkidstotal'
-        //,'b11gen55'
+        ,'b11gen55'
         ,'b3uni01'
-        //,'b3uni19'
-        //,'b3dem30c'
+        ,'b3uni19'
+        ,'b3dem30c'
         ,'b3uni07'
         ,'b3uni18'
         ,'hascorespartner'
         ,'partnerage'
-        //,'b3dem22_y'
-        //,'b3dem22_m'
-        //,'b3dem23'
-        //,'b14dem25'
-        //,'b14dem26'
+        ,'b3dem22_y'
+        ,'b3dem22_m'
+        ,'b3dem23'
+        ,'b14dem25'
+        ,'b14dem26'
         ,'hascoreschildunder15'
         ,'b6lhi31_1'
         ,'b11gen01'
@@ -102,8 +99,8 @@ export function match_id(): TableDefinition {
         ,'b13wrk28_3601'
         ,'b9wel01'
         ,'b9wel02'
-        //,'b15inc03'
-        //,'b15inc06'
+        ,'b15inc03'
+        ,'b15inc06'
         ,'breportb17rep01'
         ,'breportb17rep02'
         ,'breportb17rep04'
