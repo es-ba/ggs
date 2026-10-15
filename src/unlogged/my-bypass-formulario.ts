@@ -1,5 +1,5 @@
-import { Respuestas, IdVariable, } from "dmencu/dist/unlogged/unlogged/tipos";
-import {setCalculoReaNoRea} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
+import { Respuestas, IdVariable } from "dmencu/dist/unlogged/unlogged/tipos";
+import {setCalculoReaNoRea, defOperativo} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
 
 /* de operativo PREJU
 var esRealizada = (respuestas:Respuestas)=>{
@@ -130,5 +130,16 @@ var esRealizadaSup=(respuestas:Respuestas)=>{
    return {codReaSup,esReaSup}
 }
 
-// esNoRea y esNoReaSup los calcula dmencu a partir de las tablas no_rea y no_rea_sup
-setCalculoReaNoRea({esRealizada, esRealizadaSup});
+// esNoRea usa el de dmencu pero, como antes en ggs, sólo si la vivienda no es realizada
+// (el esNoRea de dmencu la busca siempre). esNoReaSup queda el de dmencu.
+// se guarda el de dmencu antes de llamar a setCalculoReaNoRea, que lo reemplaza
+var esNoReaDmencu = defOperativo.esNoRea;
+var esNoRea = (respuestas:Respuestas, tarea:string)=>{
+    var {esRea} = esRealizada(respuestas);
+    if(esRea){
+        return {codNoRea:null, esNoRea:false};
+    }
+    return esNoReaDmencu(respuestas, tarea);
+};
+
+setCalculoReaNoRea({esNoRea, esRealizada, esRealizadaSup});
