@@ -1,4 +1,4 @@
-import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, TEM as TEMBase} from "dmencu/dist/unlogged/unlogged/tipos";
+import { IdFormulario, RespuestasRaiz, ForPk, IdVariable, IdUnidadAnalisis, TEM as TEMBase} from "dmencu/dist/unlogged/unlogged/tipos";
 import {getDatosByPass, setCalcularVariablesEspecificasOperativo, respuestasForPk} from "dmencu/dist/unlogged/unlogged/bypass-formulario";
 import {setOrdenPorDefectoAtributos} from "dmencu/dist/unlogged/unlogged/render-formulario";
 
@@ -21,22 +21,22 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
     if(forPk.formulario == 'F:S1_SUP' as IdFormulario){
         let hogar = forPk.hogar as number - 1;
         if(respuestasRaiz.hogares && respuestasRaiz.hogares[hogar]){
-            let respuestasHogarSup = respuestasRaiz.hogares_sup[hogar];
+            let respuestasHogarSup = respuestasRaiz['hogares_sup' as IdUnidadAnalisis][hogar];
             let respuestasHogar = respuestasRaiz.hogares[hogar];
-            respuestasHogarSup.resp_indi_sup = respuestasHogar.msnombre;
+            respuestasHogarSup['resp_indi_sup' as IdVariable] = respuestasHogar['msnombre' as IdVariable];
             if(respuestasHogar.personas && respuestasHogar.personas instanceof Array){
-                respuestasHogarSup.resp_comp_ed_sup = respuestasHogar.personas[0]?.edad;
-                respuestasHogarSup.resp_comp_sup = respuestasHogar.personas[0]?.nombre;
-                respuestasHogarSup.resp_indi_ed_sup = 
-                    respuestasHogar.cr_num_miembro?
-                        respuestasHogar.personas[respuestasHogar.cr_num_miembro -1]?.edad
+                respuestasHogarSup['resp_comp_ed_sup' as IdVariable] = respuestasHogar.personas[0]?.['edad' as IdVariable];
+                respuestasHogarSup['resp_comp_sup' as IdVariable] = respuestasHogar.personas[0]?.['nombre' as IdVariable];
+                respuestasHogarSup['resp_indi_ed_sup' as IdVariable] =
+                    respuestasHogar['cr_num_miembro' as IdVariable]?
+                        respuestasHogar.personas[Number(respuestasHogar['cr_num_miembro' as IdVariable]) -1]?.['edad' as IdVariable]
                     :null;
             }
         }
     }
     if(forPk.formulario == 'F:RE' as IdFormulario){
         let {respuestas} = respuestasForPk(forPk);
-        if(respuestasRaiz.rea_web == '1' || respuestasRaiz.rea_tel == '1' || respuestasRaiz.rea_pres == '1'){
+        if(respuestasRaiz['rea_web' as IdVariable] == '1' || respuestasRaiz['rea_tel' as IdVariable] == '1' || respuestasRaiz['rea_pres' as IdVariable] == '1'){
             const datosByPassViv= getDatosByPass().informacionHdr[forPk.vivienda];
             const datosTEM = datosByPassViv.tem as TEM;
             var seleccionadoAnt=datosTEM.seleccionado_ant;
@@ -50,17 +50,16 @@ setCalcularVariablesEspecificasOperativo((respuestasRaiz:RespuestasRaiz, forPk:F
                 let idParseado = idBlaise.split('');
                 idParseado.splice(6,0,"-");
                 idParseado.splice(3,0,"-");
-                idParseado = idParseado.join('');
-                respuestas['id_blaise_parseado' as IdVariable] = idParseado;
+                respuestas['id_blaise_parseado' as IdVariable] = idParseado.join('');
             }else{
                 //throw Error ("no hay id de blaise asignado para el hogar")
             }
-            respuestas['total_i1' as idVariable] = 1;
+            respuestas['total_i1' as IdVariable] = 1;
         }else {
             respuestas['msnombrei' as IdVariable] = null;
             respuestas['id_blaise' as IdVariable] = null;
             respuestas['id_blaise_parseado' as IdVariable] = null;
-            respuestas['total_i1' as idVariable] = 0;
+            respuestas['total_i1' as IdVariable] = 0;
         }
     }    
 })

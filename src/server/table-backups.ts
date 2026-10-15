@@ -12,7 +12,7 @@ export const getProcesamientoFields = (opts:{editable:boolean, inTable:boolean }
     return f;
 }); 
 
-export function backups(_context:TableContext): TableDefinition {
+export function backups(_context?:TableContext): TableDefinition {
   var definition: TableDefinition = {
     name: "backups",
     elementName: "backup",

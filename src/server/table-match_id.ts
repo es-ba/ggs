@@ -2,12 +2,12 @@
 
 import { changing } from "best-globals";
 import { backups } from "./table-backups";
-import { TableDefinition } from "./types-ggs";
+import { TableDefinition, TableContext, FieldDefinition } from "./types-ggs";
 
-export function match_id(): TableDefinition {
-    let def = backups();
+export function match_id(context?:TableContext): TableDefinition {
+    let def = backups(context);
     def.title='Consistencias Blaise'
-    const ggs_fields = [
+    const ggs_fields:FieldDefinition[] = [
         //campos base.tem_blaise
         {name:'idblaise'   ,  typeName: 'text',  editable: false },
         {name:'operativo'  ,  typeName: 'text',     editable: false },
@@ -128,7 +128,6 @@ export function match_id(): TableDefinition {
         fieldToShow.visible = true
     })
     */    
-    //@ts-ignore
     def.fields=[...ggs_fields, ...camposOrdenados]
     
 

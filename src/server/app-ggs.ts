@@ -74,17 +74,17 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
 
     getMenuAsignacion(context:Context){
         let menuAsignacion = super.getMenuAsignacion(context);
-        menuAsignacion.menuContent = menuAsignacion.menuContent.filter((item) => !['ingresador'].includes(item.name))
+        menuAsignacion.menuContent = menuAsignacion.menuContent.filter((item:MenuInfoBase) => !['ingresador'].includes(item.name))
         return menuAsignacion;
     }
     getMenuRecepcion(context:Context){
         let menuRecepcion = super.getMenuRecepcion(context);
-        menuRecepcion.menuContent = menuRecepcion.menuContent.filter((item) => !['ingresador'].includes(item.name))
+        menuRecepcion.menuContent = menuRecepcion.menuContent.filter((item:MenuInfoBase) => !['ingresador'].includes(item.name))
         return menuRecepcion;
     }
     
-    getMenuControles(context:Context){
-        let menuControles = []//super.getMenuControles(context);
+    getMenuControles(_context:Context){
+        let menuControles:MenuInfoBase[] = []//super.getMenuControles(context);
         menuControles.push({menuType:'proc', name:'encuestas_procesamiento_pasar', label: 'pasar encuestas a procesamiento'})
         menuControles.push({menuType:'table', name:'resumen', table:'control_resumen', selectedByDefault:true})
         menuControles.push({menuType:'table', name:'grilla_rea_sin_blaise', label:'rea sin blaise'})
@@ -120,8 +120,10 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         return menuConfigurar;
     }
 
-    getMenu(context:Context){
-        if(context.be.config.server.policy == 'backups'){
+    // el getMenu() sin argumentos que declara operativos exige menuType de una unión cerrada; los menús de ggs usan menuType abiertos (como dmencu)
+    // @ts-expect-error
+    getMenu(context?:Context):{menu:MenuInfoBase[]}{
+        if(this.config.server.policy == 'backups'){
             let menu: MenuInfoBase[] = [];
             menu.push({ menuType: "table", name: "lotes" });
             menu.push({ menuType: "table", name: "backups" });
@@ -242,10 +244,10 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
             );
         })        
 
-        be.appendToTableDefinition('areas_asignacion_general', function (tableDef,context) {
+        be.appendToTableDefinition('areas_asignacion_general', function (tableDef:TableDefinition, _context?:TableContext) {
             let forExclude: string[] = [];
             for(let t of ['ingr']){
-                for(let f of tableDef.tareasFields){
+                for(let f of tableDef.tareasFields ?? []){
                     forExclude.push(`${f.prefijo}_${t}`);
                     forExclude.push(`${f.prefijo}_${t}_nombre`);
                     forExclude.push(`${f.prefijo}_${t}_apellido`);
