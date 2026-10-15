@@ -230,16 +230,6 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
                 {name:'usuario_blaise' , typeName:'text' , editable: true },
             );
         })
-        be.appendToTableDefinition('no_rea',function(tableDef:TableDefinition){
-            tableDef.fields.push(
-                {name:'orden' , typeName:'bigint' , editable: true },
-            );
-        })
-        be.appendToTableDefinition('no_rea_sup',function(tableDef:TableDefinition){
-            tableDef.fields.push(
-                {name:'orden' , typeName:'bigint' , editable: true },
-            );
-        })
         be.appendToTableDefinition('tareas_tem_ingreso',function(tableDef:TableDefinition, _context?:TableContext){
             tableDef.sql!.from = tableDef.sql!.from!.replace(
                 "'__implementar_en_operativo_final'",
