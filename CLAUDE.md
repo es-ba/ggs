@@ -1,23 +1,16 @@
 # CLAUDE.md — ggs
 
+@node_modules/dmencu/CLAUDE.md
+
 Encuesta de Generación y Género (GGS2026). App que corre sobre Backend-Plus y PostgreSQL y **extiende `dmencu`** (dependencia npm, ver `package.json`) mediante la clase `AppGgs` en `src/server/app-ggs.ts`. Funciona en dispositivos móviles mediante offline-first (PWA con service worker), igual que dmencu.
 
-Lo que es común a todos los relevamientos (hoja de ruta, asignaciones, motor de tareas, metadatos de formularios) vive en `dmencu`, `meta-enc` y `backend-plus`. Acá sólo van las diferencias de ggs. Antes de tocar comportamiento general, revisar primero el CLAUDE.md de dmencu (`c:\npm\dmencu\CLAUDE.md`). Las apps hermanas `etoi` y `repsic` siguen el mismo patrón y sirven de referencia.
-
----
-
-## Nombres de operativos
-
-- El operativo se identifica con un código numérico que indica la onda (año y trimestre). El código está en la configuración (`src/server/def-config.ts`), no en este archivo.
-- Al hablar del operativo en general (documentación, explicaciones, mensajes, nombres de funciones o textos de interfaz), **no usar el código**. Usar la descripción, por ejemplo "la encuesta vigente" o "la onda actual".
-- El código sólo aparece cuando es un identificador técnico que el sistema exige (por ejemplo, valores de la columna `operativo`, nombre de la base o de los usuarios de base) o cuando se habla de una onda concreta.
-- Esta regla aplica a cualquier operativo, no sólo a ggs.
+Lo que es común a todos los relevamientos (hoja de ruta, asignaciones, motor de tareas, metadatos de formularios) vive en `dmencu`, `meta-enc` y `backend-plus`. Acá sólo van las diferencias de ggs. Antes de tocar comportamiento general, seguir las reglas de dmencu importadas arriba (`node_modules/dmencu/CLAUDE.md`). Las apps hermanas `etoi` y `repsic` siguen el mismo patrón y sirven de referencia.
 
 ---
 
 ## Estructura de archivos
 
-- `src/server/` — backend. Cada tabla tiene su archivo `table-*.ts` (convención de `backend-plus`). Antes de trabajar con una tabla, leer su archivo: ahí están columnas, labels y validaciones.
+- `src/server/` — backend. Cada tabla tiene su archivo `table-*.ts`. El código del operativo está en `src/server/def-config.ts`, no en este archivo.
   - `app-ggs.ts`: clase `AppGgs` que extiende a la de dmencu (menús, `clientIncludes`, `createResourcesForCacheJson`, colores y manifest de la PWA, etc.). Acá también se agregan las tablas propias a los menús.
   - `def-config.ts`: configuración estática (`defConfig`), incluye los scripts de instalación de la base (`install.dump.scripts`). Los scripts `post-adapt` cargan la lógica de dmencu, meta-enc y consistencias.
   - `procedures-ggs.ts`: procedimientos propios; se suman a los de dmencu en `getProcedures`.
@@ -39,12 +32,9 @@ Lo que es común a todos los relevamientos (hoja de ruta, asignaciones, motor de
 
 ### Stack
 
-- **Backend**: Node.js + TypeScript, `backend-plus` como framework base, con `dmencu` como capa de aplicación.
-- **Frontend**: pantallas estándar de backend-plus (grillas editables) más la pantalla de relevamiento, en React, que viene de dmencu y se adapta en `src/unlogged` y `src/client`.
 - **Base de datos**: PostgreSQL, esquema `base`. Hay dos usuarios: un owner (`ggs2026_owner`) que crea tablas y procedimientos, y un admin (`ggs2026_admin`) que usa el backend. Sus datos de configuración están en `def-config.ts` y en `local-config.yaml`.
 - **Dependencias clave**: `dmencu` (ver `package.json`). Al actualizarla, revisar que los imports de `dmencu/dist/...` sigan existiendo.
 - **Puerto y ruta**: `server.port` 3070 y `base-url` `/ggs2026` en `def-config.ts`.
-- **Deploy**: servicio systemd en Ubuntu. Los desarrolladores pueden usar Windows también.
 
 ---
 
@@ -61,16 +51,14 @@ Lo que es común a todos los relevamientos (hoja de ruta, asignaciones, motor de
 ## Compilación
 
 - `npm run build` compila en orden `src/unlogged`, `src/client`, `src/server` y luego corre `mixin-patch`. Cada paso se puede correr por separado (`build-client`, `build-server`, `build-unlogged`).
-- Si `mixin-patch` se cuelga sin salida, casi seguro hay un `.d.ts` viejo en `dist/` que dispara la regex de `mixin-patch` (catastrophic backtracking). Ya pasó con `dist/server/app-ggs.d.ts`, residuo de un módulo que no existe más. Solución: borrar `dist/` y volver a compilar.
 - `npm run dump` / `npm run bdump` regeneran la base desde la configuración; `bdump` compila antes.
-- **Compilación sin fallbacks**: el build no tolera errores. No agregar `|| echo "continue w/error"` a los scripts de `package.json`. Un error de compilación se corrige en el código.
 - Los tipos de React tienen que ser los de la versión 17 que usa dmencu (`@types/react`, `@types/react-dom`, `@types/react-redux` en devDependencies). Si se instala `@types/react` 19, el build falla dentro de los `.tsx` de `node_modules/dmencu/dist`.
 
 ---
 
 ## Checklist para actualizar dmencu
 
-Hacer siempre estos pasos antes de dar por actualizado dmencu (comparar la versión instalada contra la nueva, por ejemplo con `git diff vX vY` en `c:\npm\dmencu`):
+Hacer siempre estos pasos antes de dar por actualizado dmencu (comparar la versión instalada contra la nueva, por ejemplo con `git diff vX vY` en el repo de dmencu):
 
 1. **Scripts de operaciones**: buscar archivos nuevos en `operaciones/` de dmencu. Adaptarlos a ggs (usuarios `ggs2026_owner` / `ggs2026_admin`, valores de `operativo`, columnas que ggs ya hubiera agregado) en un único script propio `operaciones/AAAAMMDD-actualizar_dmencu_X_Y_Z.sql`. Probarlo en la base local dentro de una transacción con `rollback`.
 2. **Triggers y funciones nuevos**: comparar la lista `install.dump.scripts` de `node_modules/dmencu/dist/server/server/def-config.js` contra `src/server/def-config.ts` y agregar los nuevos en el mismo orden.
@@ -79,22 +67,6 @@ Hacer siempre estos pasos antes de dar por actualizado dmencu (comparar la versi
 5. **Tablas**: revisar los cambios en `table-*.ts` de dmencu. Los campos que ggs agregaba con `appendToTableDefinition` y ahora trae dmencu se sacan de `app-ggs.ts`. Los `splice` por posición en `app-ggs.ts` se rompen si dmencu reordena campos.
 6. **Ganchos del formulario**: revisar las firmas exportadas en `dmencu/dist/unlogged/unlogged/*` que usan `my-bypass-formulario.ts` y `my-render-formulario.ts` (por ejemplo `setCalculoReaNoRea`).
 7. **Build** limpio (`rm -rf dist && npm run build`) sin errores.
-
----
-
-## Convenciones de código
-
-- **Todos los tipos deben ser explícitos**. Prohibido usar `any`, casts vía `unknown`, o cualquier magia sin justificación.
-  - Si un callback recibe un parámetro sin tipo, tiparlo (por ejemplo `(item:MenuInfoBase) => ...`), no dejarlo implícito.
-  - Si existe código de bajo nivel inevitablemente sin tipado estricto, debe estar encapsulado en ubicaciones muy delimitadas y tratado como excepción, no como norma.
-- **Preservar el estilo existente** al modificar archivos: incluyendo el uso de `var` donde ya se usa.
-- **No tocar el formato de lo que ya existe**: el diff de un cambio debe mostrar sólo las líneas que cambian de verdad.
-  - No reindentar, no reformatear, no quitar ni agregar espacios al final de las líneas, y no agregar ni quitar el salto de línea final del archivo.
-  - Respetar el fin de línea de cada archivo: la mayoría de `src/` es LF, pero hay archivos CRLF (por ejemplo `table-tem_blaise.ts`). Las líneas nuevas van con el mismo fin de línea que el resto del archivo. Revisar con `git ls-files --eol <archivo>`.
-  - En Windows no editar con `sed -i` ni herramientas que reescriban el archivo completo, porque pueden convertir CRLF a LF.
-  - Antes de commitear, revisar `git diff --stat` contra `git diff --ignore-all-space --ignore-cr-at-eol --stat`. Si dan distinto, hay cambios de formato que hay que revertir.
-- Los nombres de tablas, columnas y variables de dominio van **en castellano**, consistente con el esquema de base de datos.
-- El código sigue las convenciones de `backend-plus` para definición de tablas, procedimientos y endpoints.
 
 ---
 
@@ -150,9 +122,6 @@ Los scripts de esa lógica vienen de `dmencu`, `meta-enc`, `consistencias`, `var
 
 ## Casos de prueba
 
-Los tests cubren funcionalidades críticas del sistema. Es necesario definir una batería de tests para cada funcionalidad crítica que se implemente o extienda.
-
-- **Framework**: Mocha.
 - **Estado actual**: `package.json` define `npm test` como `mocha ... test/`, pero no existe carpeta `test/` en la raíz y `src/test/test.ts` está vacío. Hoy no hay tests propios de ggs.
 - Cuando se agreguen, seguir el esquema de dmencu / repsic: compilar `src/test` a `dist/test/` y correr mocha sobre `dist/test/test.js`. Alinear `package.json` con esa estructura antes de escribir tests.
 - Los tests de base deben revertir todo lo que escriben (cada test en una transacción con `begin` / `rollback`). No dejar escrituras que sobrevivan al test.
@@ -162,8 +131,7 @@ Los tests cubren funcionalidades críticas del sistema. Es necesario definir una
 
 ## Documentación
 
-- Este repo no tiene `docs/` ni `ayuda/` propios. La documentación para desarrolladores y la ayuda en línea de la familia de apps están en `dmencu` (`c:\npm\dmencu\docs\` y `c:\npm\dmencu\ayuda\`).
-- Si una funcionalidad propia de ggs cambia lo que ve o usa la persona, documentarla junto al cambio (README o CLAUDE.md, según corresponda).
+- Este repo no tiene `docs/` ni `ayuda/` propios. La documentación para desarrolladores y la ayuda en línea de la familia de apps están en `dmencu`.
 
 ---
 
