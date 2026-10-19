@@ -6,6 +6,3 @@ set search_path = base;
 
 alter table historial_tem add column if not exists usuario_accion text;
 alter table historial_tem add column if not exists motivo text;
-
--- el usuario admin (el que usa el backend) necesita poder modificar esas columnas
-grant update (estado, asignado, usuario_accion, motivo) on historial_tem to ggs2026_admin;
