@@ -44,7 +44,7 @@ begin
     --revisar condiciones si se agrega supervision presencial
     IF v_pre_sorteo =2 AND v_sup_aleat IS NULL 
         AND v_rea=1 AND v_con_telefono
-        AND v_estado='P' AND v_tarea_actual in ('encu','recu') 
+        AND v_estado='V' AND v_tarea_actual in ('encu','recu') 
         AND (v_rea_tel=1 OR v_rea_pres=1) THEN
         --control de 10% efectivo a supervisar 
         -- de acuerdo con la IA por el tamaño de la muestra podemos poner aqui el control
@@ -74,5 +74,5 @@ CREATE TRIGGER csetear_sup_aleat_tareas_tem_trg
     ON base.tareas_tem
     FOR EACH ROW
         WHEN (NEW.verificado = '1' AND OLD.verificado IS DISTINCT FROM NEW.verificado
-            AND NEW.estado='P' AND NEW.tarea in ('encu','recu') )  
+            AND NEW.tarea in ('encu','recu') )  
     EXECUTE FUNCTION base.setear_sup_aleat_tareas_tem_trg();
