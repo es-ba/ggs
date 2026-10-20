@@ -29,8 +29,13 @@ export function match_id(context?:TableContext): TableDefinition {
         //campos base.tareas_tem
         {name:'verif_campo'     ,  typeName: 'text' ,  editable: false },
     ]
-    //agrego msnombrei  para luego ordenarlos
-    def.fields=[{name:'msnombrei'    ,  typeName: 'text'   ,  editable: false }, ...def.fields];
+    //agrego campos solicitados en 2026  para luego ordenarlos
+    def.fields=[
+        {name:'sexo'             ,  typeName: 'text'   ,  editable: false , label:'sexo del selecc.'},
+        {name:'annio_nacimiento' ,  typeName: 'text'   ,  editable: false , label:'año nacimiento del selecc.'},
+        {name:'msnombrei'        ,  typeName: 'text'   ,  editable: false , label:'Nombre del seleccionado'},
+         ...def.fields
+    ];
     // se pide ver todos los campos del backup con este orden
     const camposOrden=['respid'
         ,'lote'
@@ -49,6 +54,8 @@ export function match_id(context?:TableContext): TableDefinition {
         ,'last_var'
         ,'agreedintro'
         ,'completitud'
+        ,'sexo'
+        ,'annio_nacimiento'
         ,'msnombrei'
         ,'age'
         ,'b1dem01'
@@ -140,7 +147,7 @@ export function match_id(context?:TableContext): TableDefinition {
                     tb.*,
                     v.msnombrei, v.rea_web, v.rea_tel, v.rea_pres,
                     t.rea, t.norea, t.resumen_estado, t.resultado, t.result_sup,
-                    t.tarea_actual,
+                    t.tarea_actual, t.seleccionado_ant->>'sexo' sexo, t.seleccionado_ant->>'anio nacimiento' annio_nacimiento,
                     tt.verif_campo,
                     b.*
                 FROM backups b 
