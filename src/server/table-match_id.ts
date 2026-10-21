@@ -31,8 +31,8 @@ export function match_id(context?:TableContext): TableDefinition {
     ]
     //agrego campos solicitados en 2026  para luego ordenarlos
     def.fields=[
-        {name:'sexo'             ,  typeName: 'text'   ,  editable: false , label:'sexo del selecc.'},
-        {name:'annio_nacimiento' ,  typeName: 'text'   ,  editable: false , label:'año nacimiento del selecc.'},
+        {name:'sexo'             ,  typeName: 'text'   ,  editable: false , label:'sexo selec. 2022'},
+        {name:'annio_nacimiento' ,  typeName: 'text'   ,  editable: false , label:'año nacimiento selec. 2022'},
         {name:'msnombrei'        ,  typeName: 'text'   ,  editable: false , label:'Nombre del seleccionado'},
          ...def.fields
     ];
