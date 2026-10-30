@@ -20,6 +20,7 @@ export function backups(_context?:TableContext): TableDefinition {
     tableName: "backups",
     editable:true,
     allow: {import:true},
+    exportLabelsRow: true,
     fields: [
         //campo propios:
         { name: "lote", typeName: "integer", editable: false},
