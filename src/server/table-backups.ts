@@ -51,7 +51,7 @@ export function backups(_context?:TableContext): TableDefinition {
         { name: "b2dem21_3601"                  , typeName: "text", editable: false, label:'Cant pers de 18 a 79 años del hogar' },
         { name: "b3uni01"                       , typeName: "text", editable: false, label:'Tenía pareja en última enc' },
         { name: "b3uni07"                       , typeName: "text", editable: false, label:'Vive en la misma vivienda con "pareja última enc"' },
-        { name: "b3uni18"                       , typeName: "text", editable: false, label:'Convive con su pareja' },
+        { name: "b3uni18"                       , typeName: "text", editable: false, label:'Convive con pareja posterior a enc anterior' },
         { name: "b3uni19"	                      , typeName: "text", editable: false, label:'Relación con alguien con quien no convive' },
         { name: "b3dem30c"                      , typeName: "text", editable: false, label:'Intención de convivir en los próximos 3 años' },
         { name: "b3dem22_y"                     , typeName: "text", editable: false, label:'Año de nacimiento de la pareja' },
