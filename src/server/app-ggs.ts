@@ -91,13 +91,6 @@ export function emergeAppGgs<T extends Constructor<dmencu.AppAppDmEncuType>>(Bas
         return menuControles;
     }
 
-    getMenuVarios(context:Context){
-        let menuVarios = super.getMenuVarios(context);
-        menuVarios.menuContent.push({menuType:'table', name:'no_rea'        , label:'no rea'})
-        menuVarios.menuContent.push({menuType:'table', name:'no_rea_sup'    , label:'no rea sup'})
-        return menuVarios;
-    }
-
     getMenuConfigurar(context: Context): MenuInfoBase[] {
         const menuConfigurar = super.getMenuConfigurar(context);
         const menuMuestra = menuConfigurar.find(item => item.name === 'muestra');
