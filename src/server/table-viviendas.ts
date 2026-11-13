@@ -39,7 +39,7 @@ export function viviendas(context:TableContext):TableDefinition {
         {"name": "rea_tel", "typeName": "bigint", "nullable": true},
         {"name": "rea_pres", "typeName": "bigint", "nullable": true},
         {"name": "tel5",     "typeName": "text", "nullable": true},
-        {"name": "ggs4_esp", "typeName": "bigint", "nullable": true},
+        {"name": "ggs4_esp", "typeName": "text", "nullable": true},
         {"name": "razon_999", "typeName": "bigint", "nullable": true},
         {"name": "razon_97", "typeName": "bigint", "nullable": true},
         {"name": "razon_98", "typeName": "bigint", "nullable": true},
